@@ -2,10 +2,13 @@
 ## WebAssembly
 - "Binary instruction format for a **stack-based virtual machine**. WebAssembly is designed as a **portable compilation target** for programming languages, enabling deployment on the web for client and server applications." - webassembly.org
 - WASM's website claims that wasm is efficient and fast, safe, open and debuggable and part of the open web platform. In the following, we will check those statements for their validity
-- The standard is getting developed by the W3C Community Group as well as a W3C Working Group. 
+- The standard is getting developed by the W3C Community Group as well as a W3C Working Group and is supported by all major browser vendors. 
 - WebAssembly defines a portable binary-code format for executable programs, and a corresponding textual assembly language, known as WebAssembly Text, as well as interfaces for facilitating interactions between such programs and their host environment.
 - So how does it work? - You just need to write a program in a dedicated language; when compiling, specify `wasm` as the compilation target. In the first demo, we can look at how easy it is and what components are necessary to execute WebAssembly binaries in the browser.
--  Maybe you are currently thinking about how this thing is trying to take Javascripts place but this is actually not the case. WASM is created to peacefully coexist next to JavaScript. That's why you can call WASM functions out of Javascript and also Javascript functions from WASM.
+-  Maybe you are currently thinking about how this thing is trying to take JavaScripts place but this is actually not the case. WASM is created to peacefully coexist next to JavaScript. That's why you can call WASM functions out of JavaScript and also JavaScript functions from WASM using the WebAssembly JavaScript APIs.
+- MDN Web Docs summarizes WASM as follows: "WebAssembly is a new type of code that can be run in modern web browsers - it is a low-level assembly-like language with a compact binary format that runs with near-native performace and provides languages such as C/C++, C# and Rust a compilation target so that they can run on the web. It is also designed to run alongside JavaScript, allowing both to work together.
+- Run code on the web near native speed, run client apps on the web that previously couldn't have done so. 
+- For example can Doom be run in the browser using wasm. That would have probably surprised you a frew years ago before Doom ran on a pregnancy test or an IKEA lamp.
 
 # Stack-based Virtual Machines 
 - Abstraction of a computer that emulates a real machine
@@ -30,6 +33,9 @@
 - https://webassembly.org/
 - https://en.wikipedia.org/wiki/WebAssembly
 - https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format
+- https://developer.mozilla.org/en-US/docs/WebAssembly
+- https://doom.fandom.com/wiki/Wasm-doom
+- https://www.popularmechanics.com/science/a33957256/this-programmer-figured-out-how-to-play-doom-on-a-pregnancy-test/
 
 ## TODO
 - Wasmtime
@@ -40,3 +46,4 @@
 - Stack based virtual machine 
 - Java comparison (Java bytecode, JVM)
 - Call javascript from wasm and the other way around
+- actually benchmark myself
