@@ -46,9 +46,21 @@
 - The JS API provides developers with the ability to create modules, memories, tables and instances. Given a WebAssembly instance, JavaScript code can synchronously call its exports, which are exposed as normal JavaScript functions. Arbitrary JavaScript functions can also be synchronously called by WebAssembly code by passing in those JavaScript functions as the import to a WebAssembly instance.
 - Since JavaScript has complete control over how WebAssembly code is downloaded, compiled and run, JavaScript developers could even think of WebAssembly as just a JavaScript feature for efficiently generating high-performance functions.
 
+## Workflow
+- Emscripten is able to take any C/C++ source code and compile it into a .wasm module, plus the necessary JavaScript "glue" code for loading and running the module, and an HTML document to display the results of the code.
 
-https://developer.mozilla.org/en-US/docs/WebAssembly/Concepts
+![alt text](/assets/img/emscripten-diagram.png "Logo Title Text 1")
 
+1. Emscripten feeds the C/C++ into clang + LLVM. 
+2. Emscripten transforms the compiled result of clang + LLVM into a .wasm binary.
+3. By itself, WebAssembly cannot currently directly access the DOM; it can only call JavaScript, passing in integer and floating point primitive data types. Thus, to access any Web API, WebAssembly needs to call out to JavaScript, which then makes the Web API call. Emscripten therefore creates the HTML and JavaScript glue code needed to achieve this.
+
+**There are plant to allow WASM to call Web APIs directly**
+
+### Javascript glue code
+- Emscripten implements popular C/C++ libraries like OpenGL, SDL, OpenAL, and parts of POSIX. Thse libraries are implemented in terms of Web APIs and thus each one requires some JavaScript glue code to connect WebAssembly to the underlaying Web API. 
+- Part of the glue code is implementing the functionality of each respective library used by the C/C++ code. The glue code also contains the logic for calling the above-mentioned WebAssembly JavaScript APIs to fetch, load and run the .wasm file.
+- The generated HTML document loads the JavaScript glue file and writes stdout to a `<textarea>`. If the application uses OpenGL, the HTML also contains a `<canvas>` element that is used as the rendering target. It's very easy to modify the Emscripten output and turn it into whatever web app you require.
 ## Resources
 - https://app.element.io/#/room/!zfXkSajYpjFUicXtCA:matrix.org
 - https://webassembly.org/
@@ -58,11 +70,13 @@ https://developer.mozilla.org/en-US/docs/WebAssembly/Concepts
 - https://doom.fandom.com/wiki/Wasm-doom
 - https://www.popularmechanics.com/science/a33957256/this-programmer-figured-out-how-to-play-doom-on-a-pregnancy-test/
 - https://developer.mozilla.org/en-US/docs/WebAssembly/Concepts
+- https://emscripten.org/
 
 ## Interesting Links
 - https://wasdk.github.io/WasmFiddle/
 - https://anonyco.github.io/WasmFiddlePlusPlus/
 - https://mbebenita.github.io/WasmExplorer/
+- https://www.assemblyscript.org/ (If you are a web developer wjp wants to try wasm without needing to learn languages like C, Rust etc. AssemblyScript compiles a strict variant of TypeScript to WebAssembly, allowing to keep using TS compatible tooling such as Prettier, ESLint, intellisense etc.)
 ## TODO
 - Wasmtime
 - Wasmer
@@ -75,3 +89,4 @@ https://developer.mozilla.org/en-US/docs/WebAssembly/Concepts
 - actually benchmark myself
 - a wasm binary that has been compiled **by the browser**
 - "native speed"
+- Emscripten
