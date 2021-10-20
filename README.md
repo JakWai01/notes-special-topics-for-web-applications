@@ -10,7 +10,7 @@
 - Run code on the web near native speed, run client apps on the web that previously couldn't have done so. 
 - For example can Doom be run in the browser using wasm. That would have probably surprised you a frew years ago before Doom ran on a pregnancy test or an IKEA lamp.
 
-# Stack-based Virtual Machines 
+## Stack-based Virtual Machines 
 - Abstraction of a computer that emulates a real machine
 - Generally built as an interpreter of a special bytecode, that translates it in real time for execution on the CPU.
 - Famous stack-based VM's are the JVM and the CLR (Common language runtime, base for .NET)
