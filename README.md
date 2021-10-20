@@ -55,7 +55,7 @@
 2. Emscripten transforms the compiled result of clang + LLVM into a .wasm binary.
 3. By itself, WebAssembly cannot currently directly access the DOM; it can only call JavaScript, passing in integer and floating point primitive data types. Thus, to access any Web API, WebAssembly needs to call out to JavaScript, which then makes the Web API call. Emscripten therefore creates the HTML and JavaScript glue code needed to achieve this.
 
-**There are plant to allow WASM to call Web APIs directly**
+**There are plans to allow WASM to call Web APIs directly**
 
 ### Javascript glue code
 - Emscripten implements popular C/C++ libraries like OpenGL, SDL, OpenAL, and parts of POSIX. Thse libraries are implemented in terms of Web APIs and thus each one requires some JavaScript glue code to connect WebAssembly to the underlaying Web API. 
