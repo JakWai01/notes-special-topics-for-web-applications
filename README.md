@@ -18,6 +18,7 @@
 - two main data structures for a stack-based VM are the code listing, with the instruction pointer, and the stack data, thich is accessed only via the stack pointer. By adding some external memory (heap), real languages like Java or **WebAssembly** (is this the right choice of word here?) can be created. 
 
 ## WAT - WebAssembly Text Format
+- Low level, assembly-like language
 ```lisp
 (module
   (func $add (param $lhs i32) (param $rhs i32) (result i32)
@@ -27,6 +28,26 @@
   (export "add" (func $add))
 ) 
 ```
+- WASM is not primarily intented to be written by hand
+- WASM can be importet into a web (or Node.js) app, exposing WebAssembly functions for use via JavaScript 
+
+## The Web Platform
+- The web platform can be thought of as having two parts:
+  - A virtual machine (VM) that runs the Web app's code, e.g. the JavaScript code that powers your apps.
+  - A set of WebAPIs that the Web app can call to control web browser/device functionality and make things happen (DOM, CSSOM, WebGL, IndexedDB, WebAudio API, etc.)
+- Historically, the VM has been able to load only JavaScript. This became a bottleneck when more intensive use cases like 3D games, Virtual and Augmented Reality, computer vision etc. entered the space
+
+## WebAssembly key concepts
+- Several key concepts needed to understand how WebAssembly runs in the browser at near native speed. See those concepts in the WebAssembly JavaScript API (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly)
+  - Module: a WASM binary that has been compiled by the browser into executable machine code.
+  - Memory: a resizable ArrayBuffer that contains the linear array of bytes read and written by the WASM's low-level memory access instructions.
+  - Table: a resizable typed array of references (e.g. to functions) that could not otherwhise be stored as raw bytes in Memory (for safety and portability reasons)
+  - Instance: a module paired wit hall the state it uses at runtime including a memory, table and set of importet values. (An instance is like an ES2015 module that has been loaded into a particular global with a particular set of imports)
+- The JS API provides developers with the ability to create modules, memories, tables and instances. Given a WebAssembly instance, JavaScript code can synchronously call its exports, which are exposed as normal JavaScript functions. Arbitrary JavaScript functions can also be synchronously called by WebAssembly code by passing in those JavaScript functions as the import to a WebAssembly instance.
+- Since JavaScript has complete control over how WebAssembly code is downloaded, compiled and run, JavaScript developers could even think of WebAssembly as just a JavaScript feature for efficiently generating high-performance functions.
+
+
+https://developer.mozilla.org/en-US/docs/WebAssembly/Concepts
 
 ## Resources
 - https://app.element.io/#/room/!zfXkSajYpjFUicXtCA:matrix.org
@@ -36,7 +57,12 @@
 - https://developer.mozilla.org/en-US/docs/WebAssembly
 - https://doom.fandom.com/wiki/Wasm-doom
 - https://www.popularmechanics.com/science/a33957256/this-programmer-figured-out-how-to-play-doom-on-a-pregnancy-test/
+- https://developer.mozilla.org/en-US/docs/WebAssembly/Concepts
 
+## Interesting Links
+- https://wasdk.github.io/WasmFiddle/
+- https://anonyco.github.io/WasmFiddlePlusPlus/
+- https://mbebenita.github.io/WasmExplorer/
 ## TODO
 - Wasmtime
 - Wasmer
@@ -47,3 +73,5 @@
 - Java comparison (Java bytecode, JVM)
 - Call javascript from wasm and the other way around
 - actually benchmark myself
+- a wasm binary that has been compiled **by the browser**
+- "native speed"
