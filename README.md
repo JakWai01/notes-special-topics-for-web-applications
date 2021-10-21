@@ -66,9 +66,17 @@
 - fast and secure WebAssembly runtime that enables super lightweight containers to run anywhere: from Desktop to the Cloud, Edge and IoT devices.
 - Secure by default: No file, network, or environment access, unless explicitly enabled. 
 - Execute *.wasm on your computer
+- installation commands
+- `wapm run cowsay Hello World`
 - E.g. wasmer-go
   - wasmer-go embeds the Wasmer runtime (written in Rust) inside Go. It provides most of the Wasmer features. If you are using Go, then wasmer-go is a good solution for you. If you are using Rust, then Wasmer itself is the best solution.
   - It is performant, and it is production ready. The Wasmer runtime (in Rust) provides better runtime performance than wasmer-go; the latter goes through cgo to hit the wasmer-c-api; there is a penalty for each call due to Go/cgo overall design, compared to using the Rust API directly.
+- Run some of the wasmer examples in rust and explain the workflow there
+
+## Wasmtime
+- better user experience IMHO 
+- Standalone JIT-style runtime for WebAssembly, using Cranelift
+
 ## Resources
 - https://app.element.io/#/room/!zfXkSajYpjFUicXtCA:matrix.org
 - https://webassembly.org/
@@ -82,6 +90,7 @@
 - https://github.com/wasmerio/wasmer/tree/master/examples
 - https://github.com/wasmerio/wasmer-go
 - https://spectrum.chat/wasmer/runtime/wasmer-go-vs-wasmer-rust~4f8d36bd-fb3d-4c6b-9bc2-4e04559ab038
+- https://github.com/bytecodealliance/wasmtime
 
 ## Interesting Links
 - https://wasdk.github.io/WasmFiddle/
@@ -101,3 +110,4 @@
 - a wasm binary that has been compiled **by the browser**
 - "native speed"
 - Emscripten
+- Why can we only call exported functions and not run the code itself
