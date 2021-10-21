@@ -61,6 +61,14 @@
 - Emscripten implements popular C/C++ libraries like OpenGL, SDL, OpenAL, and parts of POSIX. Thse libraries are implemented in terms of Web APIs and thus each one requires some JavaScript glue code to connect WebAssembly to the underlaying Web API. 
 - Part of the glue code is implementing the functionality of each respective library used by the C/C++ code. The glue code also contains the logic for calling the above-mentioned WebAssembly JavaScript APIs to fetch, load and run the .wasm file.
 - The generated HTML document loads the JavaScript glue file and writes stdout to a `<textarea>`. If the application uses OpenGL, the HTML also contains a `<canvas>` element that is used as the rendering target. It's very easy to modify the Emscripten output and turn it into whatever web app you require.
+
+## Wasmer
+- fast and secure WebAssembly runtime that enables super lightweight containers to run anywhere: from Desktop to the Cloud, Edge and IoT devices.
+- Secure by default: No file, network, or environment access, unless explicitly enabled. 
+- Execute *.wasm on your computer
+- E.g. wasmer-go
+  - wasmer-go embeds the Wasmer runtime (written in Rust) inside Go. It provides most of the Wasmer features. If you are using Go, then wasmer-go is a good solution for you. If you are using Rust, then Wasmer itself is the best solution.
+  - It is performant, and it is production ready. The Wasmer runtime (in Rust) provides better runtime performance than wasmer-go; the latter goes through cgo to hit the wasmer-c-api; there is a penalty for each call due to Go/cgo overall design, compared to using the Rust API directly.
 ## Resources
 - https://app.element.io/#/room/!zfXkSajYpjFUicXtCA:matrix.org
 - https://webassembly.org/
@@ -71,6 +79,9 @@
 - https://www.popularmechanics.com/science/a33957256/this-programmer-figured-out-how-to-play-doom-on-a-pregnancy-test/
 - https://developer.mozilla.org/en-US/docs/WebAssembly/Concepts
 - https://emscripten.org/
+- https://github.com/wasmerio/wasmer/tree/master/examples
+- https://github.com/wasmerio/wasmer-go
+- https://spectrum.chat/wasmer/runtime/wasmer-go-vs-wasmer-rust~4f8d36bd-fb3d-4c6b-9bc2-4e04559ab038
 
 ## Interesting Links
 - https://wasdk.github.io/WasmFiddle/
