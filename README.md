@@ -76,6 +76,53 @@
 ## Wasmtime
 - better user experience IMHO 
 - Standalone JIT-style runtime for WebAssembly, using Cranelift
+- Demo
+
+## WASI 
+- The WebAssembly System Interface
+- Modular system interface for WebAssembly
+- "Developers start to push WebAssembly beyond the browser, because it provides a fast, scalable and secure way to run the same code across all machines." - Lin Clark
+- WebAssembly is a language for a conceptual machine, not a physical one. This is why it can be run across a variety of different machine architectures. 
+- This implies that WASM needs a system interface for a conceptual operating system, not any single one. We want to target a variety of plattforms again.
+
+### System interface
+- Let's first talk about what a system interface is in the first place. 
+- Imagine the kernel and the operating system. If we want to open a file we need to make a syscall. The kernel then has time to check if the user has the necessary permissions. The operating system makes these system calls available. We also don't need multiple implementations of the code for every operating system as the standard library in your programming language most likely handles this. Otherwhise you would need to know which system you are targeting while programming and therefore implement your functions differently if the interface is a different one. 
+
+### What was the state of the art solution before WASI
+- First, there was Emscripten
+- It emulates POSIX on the web (a programmer can use functions from the C standard library)
+- To do this, Emscripten created its own version of libc. Partly this implementation is compiled into the WASM module and partly, it is contained in the JS glue code.
+- The JS glue code would then call into the browser, which would then talk to the OS.
+- (Show picture to improve understanding)
+- The runtimes also implemented all the JS glue code functions so WASM compiled with Emscripten could be executed without the browser.
+- (Show picture of emulation of emulation)
+- All we have is an emulation of an emulation when trying to run WASM outside of the browser and want to interact with the system.
+
+### What does WASI do now?
+- WASI wants to uphold the most important goals of WASM:
+  - portability
+  - security
+- As we saw the old approach couldn't totally do that for us with the emulation in an emulation
+
+#### Portability
+- Posix provides source code portability because you can compile the same code with different versions of libc to target different machines.
+- One more step, compile once and run on different platforms. The goal is a portable binary. (Use images from mozilla)
+
+#### Security 
+- When you ask the operating system for some input or output, it needs to determine if you are allowed the information.
+- This is handled with access control based on ownership and groups.
+- That protects users from each other and was useful back in time when systems often were multi-user systems
+- But nowadays most systems are single user systems. Nowadays it's actually way more important to protect the user from itself.
+- We are pulling in so much third pary code of unknown trustworthyness that we need to have control over what it does.
+- The solution is simple and probably known to everyone in this room. Sandboxing.
+- That basically means that code can't directly talk to the OS. But instead we create a sandbox, we lock the program in and expose some functions to it with just the functionality we allow. 
+- This isn't automatically a secure solution because the host still can possibly grant full permissions to the sandbox in which case we are no better than in the first solution. But at least we have the option of being secure. 
+- Files
+  - In the normal OS, if code needs to open a file, it calls the open function containing a string with the path to the file. This succeeds if we have the necessary user permissions. As we now know this is not secure enough.
+  - Instead, if you call a function interacting with files in WASI, you have to pass a file descriptor, which has permissions attached to it. This way you can't randomly open a file. Instead the code can only operate in the directories it was given. 
+  - So the runtime passes in the file descriptors that an app can use at the top level code. The code itself can then propagate those file descriptors through the rest of the modules as needed. (Insert cute picture here) 
+- TODO Demo
 
 ## Resources
 - https://app.element.io/#/room/!zfXkSajYpjFUicXtCA:matrix.org
@@ -91,15 +138,16 @@
 - https://github.com/wasmerio/wasmer-go
 - https://spectrum.chat/wasmer/runtime/wasmer-go-vs-wasmer-rust~4f8d36bd-fb3d-4c6b-9bc2-4e04559ab038
 - https://github.com/bytecodealliance/wasmtime
+- https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/
 
 ## Interesting Links
 - https://wasdk.github.io/WasmFiddle/
 - https://anonyco.github.io/WasmFiddlePlusPlus/
 - https://mbebenita.github.io/WasmExplorer/
 - https://www.assemblyscript.org/ (If you are a web developer wjp wants to try wasm without needing to learn languages like C, Rust etc. AssemblyScript compiles a strict variant of TypeScript to WebAssembly, allowing to keep using TS compatible tooling such as Prettier, ESLint, intellisense etc.)
+
 ## TODO
-- Wasmtime
-- Wasmer
+- Theory on how wasmer and wasmtime work
 - WASI
 - WAGI
 - Explain the necessity of every component used to run WASM in the browser
@@ -111,3 +159,5 @@
 - "native speed"
 - Emscripten
 - Why can we only call exported functions and not run the code itself
+- Use the wasmtime wasm binary in the browser as well
+- Actually build a tool using nearly all the possible tools simultaneously
