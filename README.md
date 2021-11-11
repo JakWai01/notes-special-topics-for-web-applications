@@ -10,6 +10,8 @@
 - MDN Web Docs summarizes WASM as follows: "WebAssembly is a new type of code that can be run in modern web browsers - it is a low-level assembly-like language with a compact binary format that runs with near-native performace and provides languages such as C/C++, C# and Rust a compilation target so that they can run on the web. It is also designed to run alongside JavaScript, allowing both to work together.
 - Run code on the web near native speed, run client apps on the web that previously couldn't have done so. 
 - For example can Doom be run in the browser using wasm. That would have probably surprised you a frew years ago before Doom ran on a pregnancy test or an IKEA lamp.
+- To think in the right way you could compare WASM with Java in an abstract way. You have Java code which then is compiled to Java Bytecode and then can run using the JVM in multiple architectures and environments.
+- Many languages have wasm as a valid compilation target including Go and Rust. There are also compilers like Emscripten for C++ which can do the job.
 
 ## Stack-based Virtual Machines 
 - Abstraction of a computer that emulates a real machine
@@ -75,6 +77,7 @@
   - wasmer-go embeds the Wasmer runtime (written in Rust) inside Go. It provides most of the Wasmer features. If you are using Go, then wasmer-go is a good solution for you. If you are using Rust, then Wasmer itself is the best solution.
   - It is performant, and it is production ready. The Wasmer runtime (in Rust) provides better runtime performance than wasmer-go; the latter goes through cgo to hit the wasmer-c-api; there is a penalty for each call due to Go/cgo overall design, compared to using the Rust API directly.
 - Run some of the wasmer examples in rust and explain the workflow there
+- TODO: Add a wasmer graphic here to display how it works
 
 ## Wasmtime
 - better user experience IMHO 
@@ -128,10 +131,16 @@
 - TODO Demo
 
 ## WAGI 
+- Very experimental
 - WebAssembly Gateway Interface
+- Rust application by Deis Labs
+- HTTP handlers using STDIN and STDOUT and environment variables
 - Write microservices and webapps 
-- Experimental 
 - "Write HTTP handlers in WebAssembly with minimal amount of work"
+- Problem this tries to solve: A wasm binary is no server. It is not actively listening. It doesn't even need to run all the time. So how do we get HTTP requests? And how do we send them? 
+  - When a HTTP request is received, the WASM binary gets executed with the necessary Information using STDIN and environment variables. It then replies by writing to STDOUT and the binary can terminate again.
+- WAGI is not for the Browser! We need another application to listen to the Request. We can e.g. use Krustlet for that. 
+- WAGI-Server can be used.          
 
 ## asm.js
 - "asm.js is a subset of JavaScript designed to allow computer software written in languages such as C to be run as web applications" - https://en.wikipedia.org/wiki/Asm.js
@@ -205,25 +214,19 @@
 - http://mozakai.blogspot.com/2012/05/reloop-all-blocks.html
 - https://en.wikipedia.org/wiki/Basic_block
 - https://www.geeksforgeeks.org/basic-blocks-in-compiler-design/
+- https://deislabs.io/posts/introducing-wagi-easiest-way-to-build-webassembly-microservices/
 
 ## Interesting Links
 - https://wasdk.github.io/WasmFiddle/
 - https://anonyco.github.io/WasmFiddlePlusPlus/
 - https://mbebenita.github.io/WasmExplorer/
 - https://www.assemblyscript.org/ (If you are a web developer wjp wants to try wasm without needing to learn languages like C, Rust etc. AssemblyScript compiles a strict variant of TypeScript to WebAssembly, allowing to keep using TS compatible tooling such as Prettier, ESLint, intellisense etc.)
+- https://krustlet.dev/
 
 ## TODO
-- Theory on how wasmer and wasmtime work
-- WAGI
 - Explain the necessity of every component used to run WASM in the browser
-- Stack based virtual machine 
-- Java comparison (Java bytecode, JVM)
 - Call javascript from wasm and the other way around
-- actually benchmark myself
-- a wasm binary that has been compiled **by the browser**
 - "native speed"
-- Emscripten
 - Why can we only call exported functions and not run the code itself
 - Use the wasmtime wasm binary in the browser as well
 - Actually build a tool using nearly all the possible tools simultaneously
-- Create a overview / Table of Contents
