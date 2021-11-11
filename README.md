@@ -1,6 +1,7 @@
 # WASM  
 ## WebAssembly
 - "Binary instruction format for a **stack-based virtual machine**. WebAssembly is designed as a **portable compilation target** for programming languages, enabling deployment on the web for client and server applications." - webassembly.org
+- Add "portable compilation target" graphic (Left side langs, mid wasm, right side target architectures)
 - WASM's website claims that wasm is efficient and fast, safe, open and debuggable and part of the open web platform. In the following, we will check those statements for their validity
 - The standard is getting developed by the W3C Community Group as well as a W3C Working Group and is supported by all major browser vendors. 
 - WebAssembly defines a portable binary-code format for executable programs, and a corresponding textual assembly language, known as WebAssembly Text, as well as interfaces for facilitating interactions between such programs and their host environment.
@@ -19,6 +20,7 @@
 
 ## WAT - WebAssembly Text Format
 - Low level, assembly-like language
+- TODO: Add an example in go code and in WebAssembly
 ```lisp
 (module
   (func $add (param $lhs i32) (param $rhs i32) (result i32)
@@ -28,6 +30,7 @@
   (export "add" (func $add))
 ) 
 ```
+- Code section, Function incl. Code section, Export section
 - WASM is not primarily intented to be written by hand
 - WASM can be importet into a web (or Node.js) app, exposing WebAssembly functions for use via JavaScript 
 
@@ -124,6 +127,64 @@
   - So the runtime passes in the file descriptors that an app can use at the top level code. The code itself can then propagate those file descriptors through the rest of the modules as needed. (Insert cute picture here) 
 - TODO Demo
 
+## WAGI 
+- WebAssembly Gateway Interface
+- Write microservices and webapps 
+- Experimental 
+- "Write HTTP handlers in WebAssembly with minimal amount of work"
+
+## asm.js
+- "asm.js is a subset of JavaScript designed to allow computer software written in languages such as C to be run as web applications" - https://en.wikipedia.org/wiki/Asm.js
+
+## Major Goal: Efficient and Fast
+- Fast is relative
+- Fast than Javascript: Statically typed and simple to optimize 
+
+### Startup time
+- It's hard to improve the size of a minified gzipped JavaScript file. WASM is designed with size in mind which results in usually 10%-20% smaller gzip files.
+- WASM is parsed way faster than JavaScript, which results out of the fact that binary formats are usually faster to parse. WASM also makes it easy to parse functions in parallel
+- There are of course other factors playing into the startup time but file size and parsing time are the two factors which can't be avoided or improved in some other way
+
+### CPU features
+- WASM is able to use many CPU features which e.g. ASM did not: 
+  - 64-Bit integers -> Operations up to 4x faster.
+  - Load and store offsets
+  - CPU instructions like copysign, popcount which can be useful in special cases
+- These CPU features lead to a speed improvement of ~5% compared to ASM
+- Could be even faster in the future when WASM uses SIMD (Single-Instruction, Multiple-Data) which could then perform the same instruction on multiple data points at the same time
+
+### Toolchain improvements
+- Improving the compiler 
+  - Improving the Relooper Algorithm 
+    - Translate basic blocks into higher level structures using loops and ifs
+    - Is needed to compile C++ into JS
+    - Can't use goto untyped in a stack based virtual machine, which can be included in basic blocks
+    - Example of a basic block to set a 10*10 matrix to an identity matrix by https://www.geeksforgeeks.org/basic-blocks-in-compiler-design/:
+    ```
+    1)  i=1        //Leader 1 (First statement)
+    2)  j=1             //Leader 2 (Target of 11th statement)
+    3)  t1 = 10 * i     //Leader 3 (Target of 9th statement) 
+    4)  t2 = t1 + j
+    5)  t3 = 8 * t2
+    6)  t4 = t3 - 88
+    7)  a[t4] = 0.0
+    8)  j = j + 1
+    9)  if j <= goto (3)       
+    10) i = i + 1                    //Leader 4 (Immediately following Conditional goto statement)
+    11) if i <= 10 goto (2)
+    12) i = 1                        //Leader 5 (Immediately following Conditional goto statement)
+    13) t5 = i - 1                   //Leader 6 (Target of 17th statement) 
+    14) t6 = 88 * t5
+    15) a[t6] = 1.0
+    16) i = i + 1
+    17) if i <= 10 goto (13)
+    ```
+- Another ~5% speedup compared to ASM
+
+### Conclusion
+- Faster than ASM
+- ASM was not an actual standard and was not jointly designed by all major browsers 
+
 ## Resources
 - https://app.element.io/#/room/!zfXkSajYpjFUicXtCA:matrix.org
 - https://webassembly.org/
@@ -139,6 +200,11 @@
 - https://spectrum.chat/wasmer/runtime/wasmer-go-vs-wasmer-rust~4f8d36bd-fb3d-4c6b-9bc2-4e04559ab038
 - https://github.com/bytecodealliance/wasmtime
 - https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/
+- https://events.mi.hdm-stuttgart.de/2021-04-09-5-developers-day/DEATH%202%20JAVASCRIPT
+- https://hacks.mozilla.org/2017/03/why-webassembly-is-faster-than-asm-js/
+- http://mozakai.blogspot.com/2012/05/reloop-all-blocks.html
+- https://en.wikipedia.org/wiki/Basic_block
+- https://www.geeksforgeeks.org/basic-blocks-in-compiler-design/
 
 ## Interesting Links
 - https://wasdk.github.io/WasmFiddle/
@@ -148,7 +214,6 @@
 
 ## TODO
 - Theory on how wasmer and wasmtime work
-- WASI
 - WAGI
 - Explain the necessity of every component used to run WASM in the browser
 - Stack based virtual machine 
@@ -161,3 +226,4 @@
 - Why can we only call exported functions and not run the code itself
 - Use the wasmtime wasm binary in the browser as well
 - Actually build a tool using nearly all the possible tools simultaneously
+- Create a overview / Table of Contents
