@@ -230,3 +230,39 @@
 - Why can we only call exported functions and not run the code itself
 - Use the wasmtime wasm binary in the browser as well
 - Actually build a tool using nearly all the possible tools simultaneously
+
+## WASM
+- WebAssembly - a short introduction
+  - Key concepts: 
+    - binary instruction format
+    - stack based virtual machine
+    - webassembly text
+      - structure
+    - keywords: module, memory, table, instance, exports
+    - portable compilation target 
+    - deployment
+    - the web platform
+- Demo: A simple Wasm application 
+  - necessary components (glue code)
+  - compilation target
+- Efficient and fast
+  - comparison to asm.js
+  - startup time
+  - cpu features
+  - compiler optimizations
+- Safe
+  - ownership and groups? still useful?
+  - sandboxing/containerization and how it works in the case of WebAssembly
+  - Demo
+- Wasmer, wasmtime
+  - run wasm outside of the browser
+  - Demos
+- WASI
+  - system interface? 
+  - solution before wasi
+  - what does wasi do?
+  - Demo
+- WAGI
+  - what can it do for us? 
+  - Demo
+- Fun ending
