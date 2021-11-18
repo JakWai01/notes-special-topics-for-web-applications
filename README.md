@@ -1,5 +1,16 @@
 # WASM  
 ## WebAssembly
+
+- Basic definition
+- Why Wasm: 
+  - high-performance applications on web-pages with near-native performance
+  - As we will see, it's not a either JS or WASM its a synergy
+  - In the first 10 yrs of JS, it wasn't fast. Then, after the JIT got introduced, execution got 10x faster.
+    - New usecases no one ever expected, like server-side programming with Node.js
+  - We may be at another inflection point with WebAssembly 
+  - (implement Graphic)
+  - generally: compiled instead of interpreted, which has lots of advantanges (e.g. loops are faster)
+
 - "Binary instruction format for a **stack-based virtual machine**. WebAssembly is designed as a **portable compilation target** for programming languages, enabling deployment on the web for client and server applications." - webassembly.org
 - Add "portable compilation target" graphic (Left side langs, mid wasm, right side target architectures)
 - WASM's website claims that wasm is efficient and fast, safe, open and debuggable and part of the open web platform. In the following, we will check those statements for their validity
@@ -222,6 +233,7 @@
 - https://mbebenita.github.io/WasmExplorer/
 - https://www.assemblyscript.org/ (If you are a web developer wjp wants to try wasm without needing to learn languages like C, Rust etc. AssemblyScript compiles a strict variant of TypeScript to WebAssembly, allowing to keep using TS compatible tooling such as Prettier, ESLint, intellisense etc.)
 - https://krustlet.dev/
+- https://hacks.mozilla.org/2019/11/announcing-the-bytecode-alliance/ - Bytecode allegiance
 
 ## TODO
 - Explain the necessity of every component used to run WASM in the browser
@@ -230,9 +242,13 @@
 - Why can we only call exported functions and not run the code itself
 - Use the wasmtime wasm binary in the browser as well
 - Actually build a tool using nearly all the possible tools simultaneously
+- Look at the things mentioned in the slide
+  - Component Model
 
 ## WASM
 - WebAssembly - a short introduction
+  - Motivation Wasm
+  - Usecases
   - Key concepts: 
     - binary instruction format
     - stack based virtual machine
@@ -254,7 +270,7 @@
   - ownership and groups? still useful?
   - sandboxing/containerization and how it works in the case of WebAssembly
   - Demo
-- Wasmer, wasmtime
+- Wasmer, wasmtime (Lucit, WAMR ) - Bytecode allegiance
   - run wasm outside of the browser
   - Demos
 - WASI
@@ -265,4 +281,5 @@
 - WAGI
   - what can it do for us? 
   - Demo
+- Conclusion
 - Fun ending
