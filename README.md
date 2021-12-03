@@ -205,6 +205,30 @@
 - Faster than ASM
 - ASM was not an actual standard and was not jointly designed by all major browsers 
 
+## WASM by Example 
+
+- WASM universal low level bytecode that runs on the web. Compilation target for languages like Rust, AssemblyScript, C, C++, Go and much more. This compact binart format is designed to run alongside Javascript and other host languages. WASM is shipped in all major browsers and has runtimes meant for running on server or interfacing systems with WASI
+
+### Concepts
+
+- compile-targeted language for running bytecode on the web
+- Relative to Javascript, WASM offers predictable performance. It is not inherently faster than Javascript, but can be faster than Javascript in the right use case such as computationally intensive tasks like nested loops or handling large amounts of data. Therefore WASM is a complement to JavaScript and not a replacement
+- Portable - runs on browsers *V8 runtimes* like Node.js and independent runtimes like WASI or Wasmtime (V8 executes JS and WASM in the browser, hence its an engine)
+- WASM has Linear Memory. That means one big expandable array. In the context of JavaScript, synchronously accessible by JS and WASM. We will look at a demo of this later
+- WASM can export functions and constants. And in the context of JS, synchronously accessible by JS and WASM.
+- WASM handles integers and floats (TODO: still?). There are libraries and tools to make passing high-level data types convenient. 
+
+### Hello World Example
+
+- Using Go, simple syntax so everyone should be able to follow 
+- TODO: Which compilers can compile to WASM right now?
+- Install Go and install TinyGo
+- index.js adds functions for loading WASM modules using the WASM Web API
+- wasm_exec is contained in the standard go installation.
+- It is only possible to cross-compile the main package to WebAssembly
+- Error: Uncaught (in promise) LinkError: WebAssembly.instantiate(): Import #5 module="go" function="runtime.walltime" error: function import requires a callable -> Go version and wasm_exec do not fit. They must be from the same version
+- `cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .` gets the current wasm_exec.js
+
 ## Resources
 - https://app.element.io/#/room/!zfXkSajYpjFUicXtCA:matrix.org
 - https://webassembly.org/
