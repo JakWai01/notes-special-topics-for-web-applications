@@ -228,6 +228,18 @@
 - It is only possible to cross-compile the main package to WebAssembly
 - Error: Uncaught (in promise) LinkError: WebAssembly.instantiate(): Import #5 module="go" function="runtime.walltime" error: function import requires a callable -> Go version and wasm_exec do not fit. They must be from the same version
 - `cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .` gets the current wasm_exec.js
+- Javascript has been the only language that the browser understands
+- In the past, JS was fast enought but in a world where 3D games, AR and VR play an increasing role, it's not enough (since it is interpreted)
+- Just in Time compilation which Gecko and V8 provide is not enough (TODO: why)
+- "virtual assembly language" -> cannot be run on hardware (why) 
+- can be processed much quicker by the browser than JS
+- The existing Browser engines have support to run WebAssembly's Virtual Assembly Code
+- "WebAssembly is not meant to replace JavaScript. Is is meant to operate hand in hand with JavaScript to take care of performance critical components of web applications. WASM can call JS and the other way around.
+- GOOS, GOARCH specify target operating systems and architectures 
+- When executing on our local machine, we will get the error cannot execute binary file: Exec format error. This is because this binary is a wasm binary and is supposed to be run inside a browser sandbox. The Linux/Mac OSes don't understand the format of this binary. Hence we get this error.
+- WASM coexisting with JS... JS is needed to import WASM module and run it in the browser. This glue code is the wasm_exec.js and is provided by the go installation
+- Index html with boilerplate 
+- The instantiateStreaming function is used to initialize our json.wasm WebAssembly module. This function returns a WebAssembly instance which contains the list of WebAssembly functions that can be called from JavaScript. This is required to call our wasm functions from JavaScript.  
 
 ## Resources
 - https://app.element.io/#/room/!zfXkSajYpjFUicXtCA:matrix.org
