@@ -284,16 +284,17 @@
 ## WASM
 - WebAssembly - a short introduction
   - Motivation Wasm
-  - Usecases
+  - Usecases TODO: at the end of the definition
   - Key concepts: 
     - binary instruction format
     - stack based virtual machine
-    - webassembly text
+    - webassembly text TODO: seperate, this does not belong to the fundamentals
       - structure
-    - keywords: module, memory, table, instance, exports
+    - keywords: module, memory, table, instance, exports TODO: seperate, this does not belong to the fundamentals
     - portable compilation target 
     - deployment
     - the web platform
+- We need some more explanation here with WAT and the terminology
 - Demo: A simple Wasm application 
   - necessary components (glue code)
   - compilation target
