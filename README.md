@@ -294,7 +294,9 @@
     - portable compilation target 
     - deployment
     - the web platform
-- We need some more explanation here with WAT and the terminology
+- Nochmal definition einbinden 
+- Usecases
+- Vor der Demo noch kurz zu WAT, dann die DEMO, in welcher die Terminologie erklärt wird
 - Demo: A simple Wasm application 
   - necessary components (glue code)
   - compilation target
@@ -319,4 +321,4 @@
   - what can it do for us? 
   - Demo
 - Conclusion
-- Fun ending
+- Show the Web Shop where you can buy Webs. Front- und Backend mit Go und WASM
