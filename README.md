@@ -1,8 +1,7 @@
 # WASM  
 ## WebAssembly
 
-- Basic definition
-- Why Wasm: 
+- Basic definition Why Wasm: 
   - high-performance applications on web-pages with near-native performance
   - As we will see, it's not a either JS or WASM its a synergy
   - In the first 10 yrs of JS, it wasn't fast. Then, after the JIT got introduced, execution got 10x faster.
@@ -272,6 +271,7 @@
 - https://hacks.mozilla.org/2019/11/announcing-the-bytecode-alliance/ - Bytecode allegiance
 
 ## TODO
+- Go through WASMByExample concepts
 - Explain the necessity of every component used to run WASM in the browser
 - Call javascript from wasm and the other way around
 - "native speed"
