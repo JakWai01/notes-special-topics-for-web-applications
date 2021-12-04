@@ -58,12 +58,39 @@
 \end{frame}
 
 \begin{frame}{Stack-Based Virtual Machine}
+    \begin{itemize}
+        \item Virtual machine which uses stacks to perform oprations
+        \item Famous stack-based VMs are the JVM (Java Virtual Machine) and the CLR (Common Language Runtime)
+        \item E.g. to add two numbers in a stack-based VM, the program will push the first number to the stack, push the second and then execute some form of the special instruction add, that will pop the first two elements of the stack and replace them with their sum
+        \item When the browser translates WASM to the machine code for the machine the browser is running on, it will use registers. Since the WASM specification does not specify registers, it gives the browser more flexibility to use the best register allocation for  that machine
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Portable Compilation Target}
+    \begin{itemize}
+        \item \textbf{WASM is designed to be executable on a variety of operating systems and instruction set architectures, on the Web and off the Web}
+        \item Created as an \textbf{open standard} inside the W3C WebAssembly Community Group
+        \item \textbf{Requirements} for WASM execution environments:
+              \begin{itemize}
+                  \item 8-bit Bytes
+                  \item Addressable at byte granularity
+                  \item Little endian
+                  \item \href{https://webassembly.org/docs/portability/}{...}
+              \end{itemize}
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Deployment on the Web Platform}
+    \begin{itemize}
+        \item The \textbf{web platform} can be described in two parts
+              \begin{itemize}
+                  \item A \textbf{VM/Engine} that runs the code, e.g. V8 or SpiderMonkey
+                  \item A set of \textbf{Web APIs} that can be called to control browser/device functionality (DOM, WebGL, Web Audio API etc.)
+              \end{itemize}
+        \item In the past, only JS could be executed in the browser as it was good enough. Today some performance problems occur as we have to run intensive programs like 3D games, VR and AR etc.
+        \item The VM can now load an run two types of code: \textbf{JavaScript and WebAssembly}
+        \item The different code types \textbf{can call each other}. The WebAssembly JavaScript API wraps exported JavaScript code with JavaScript functions that can be called normally and WebAssembly code can import and synchronously call normal JavaScript functions.
+    \end{itemize}
 \end{frame}
 
 \end{document}
