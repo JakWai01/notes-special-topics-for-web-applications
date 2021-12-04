@@ -1,6 +1,5 @@
 \documentclass{beamer}
 \usepackage{graphicx}
-% Browse themes later on
 \usetheme{metropolis}
 
 
@@ -31,15 +30,40 @@
 
 \begin{frame}{Definition}
     \begin{figure}
-        \includegraphics[scale=0.2]{./images/webassembly_org.png}
-        \caption{\href{https://webassembly.org/}{Webassembly.org}}
+        \includegraphics[scale=0.2]{./images/definition.png}
+        \caption{\href{https://www.smashingmagazine.com/2017/05/abridged-cartoon-introduction-webassembly/}{Introduction to WebAssembly}}
     \end{figure}
 \end{frame}
 
 \begin{frame}{Definition}
-\begin{quotation}
-"WebAssembly (abbreviated Wasm) is a binary instruction format for a stack-based virtual machine. Wasm is designed as a portable compilation target for programming languages, enabling deployment on the web for client and server applications."
-\end{quotation}
+    \begin{figure}
+        \includegraphics[scale=0.2]{./images/webassembly_org.png}
+        \caption{\href{https://webassembly.org/}{webassembly.org}}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Definition}
+    \begin{quotation}
+        "\textbf{WebAssembly} (abbreviated Wasm) is a \textbf{binary instruction format} for a \textbf{stack-based virtual machine}. Wasm is designed as a \textbf{portable compilation target} for programming languages, \textbf{enabling deployment on the web} for client and server applications."
+    \end{quotation}
+\end{frame}
+
+\begin{frame}{Binary Instruction Format}
+    \begin{itemize}
+        \item Machine instruction format consisting of \textbf{1s and 0s} that can be directly decoded and \textbf{executed by the CPU}
+        \item \textbf{Targeting different instruction set architectures} (ISA) like x86, ARM or RISC-V
+        \item WASM uses \textbf{virtual instructions} for a \textbf{conceptual machine}, not a physical one
+        \item Think of WASM instruction set as "intersection" of multiple ISAs that can't be mapped directly to one ISA
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Stack-Based Virtual Machine}
+\end{frame}
+
+\begin{frame}{Portable Compilation Target}
+\end{frame}
+
+\begin{frame}{Deployment on the Web Platform}
 \end{frame}
 
 \end{document}
