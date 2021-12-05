@@ -1,7 +1,7 @@
 \documentclass{beamer}
 \usepackage{graphicx}
+\usepackage{listings}
 \usetheme{metropolis}
-
 
 \title[WebAssembly]{WebAssembly}
 \author{Jakob Waibel}
@@ -103,18 +103,39 @@
     Considered by the W3C as now more feasable inside the browser:
     \begin{itemize}
         \item Better execution for languages and toolkits that are currently cross-compiled to the Web
-        \item VR and AR 
+        \item VR and AR
         \item Platform simulation / emulation (DOSBox, QEMU, …)
         \item Remote desktop
         \item Games
         \item Cloud IDEs
         \item \href{https://webassembly.org/docs/use-cases/}{...}
     \end{itemize}
-    Outside the browser: 
+    Outside the browser:
     \begin{itemize}
         \item Server-side applications
         \item Game distribution services
         \item Parallel computation across multiple nodes
+    \end{itemize}
+\end{frame}
+
+% Talk about S-expressions, import, exports, types, globals and shared memory and talk about why it might be not that relevant for the "normal" webdev
+\begin{frame}[fragile]{WebAssembly Text}
+    \begin{itemize}
+        \item Textual representation of the binary format to allow reading and editing by humans
+        \item Designed to be exposed in text editors, browser developer tools, etc.
+    \end{itemize}
+    \begin{lstlisting}[language=Lisp,basicstyle=\footnotesize]
+(module
+  (func $add (param $lhs i32) (param $rhs i32) (result i32)
+    local.get $lhs
+    local.get $rhs
+    i32.add)
+  (export "add" (func $add))
+)
+    \end{lstlisting}
+    \begin{itemize}
+        \item .wat files can be compiled to .wasm using the WebAssembly Binary Toolkit (WABT)
+        \item For more information, consider visiting the \href{https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format}{MDN Web Docs}
     \end{itemize}
 \end{frame}
 

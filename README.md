@@ -33,6 +33,13 @@
 ## WAT - WebAssembly Text Format
 - Low level, assembly-like language
 - TODO: Add an example in go code and in WebAssembly
+```go
+package main
+
+func add(a int, b int) int {
+  return a + b
+}
+```
 ```lisp
 (module
   (func $add (param $lhs i32) (param $rhs i32) (result i32)
@@ -296,6 +303,7 @@
     - the web platform
 - Nochmal definition einbinden 
 - Usecases
+- Wo wird WASM gerade eingesetzt?
 - Vor der Demo noch kurz zu WAT, dann die DEMO, in welcher die Terminologie erklärt wird
 - Demo: A simple Wasm application 
   - necessary components (glue code)
