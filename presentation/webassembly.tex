@@ -119,7 +119,7 @@
 \end{frame}
 
 \begin{frame}
-    Projects using WebAssembly right now: 
+    Projects using WebAssembly right now:
     \begin{itemize}
         \item Blazor
         \item Autocad
@@ -150,6 +150,128 @@
         \item .wat files can be compiled to .wasm using the WebAssembly Binary Toolkit (WABT)
         \item For more information, consider visiting the \href{https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format}{MDN Web Docs}
     \end{itemize}
+\end{frame}
+
+\begin{frame}{Demo - Prerequisites}
+    Disclaimer: This Demo is using the \href{https://go.dev/}{Go} programming language. You don't need any knowledge about Go to follow this Demo. Furthermore, I am using Linux! I can't guarantee, nor do I care, that it works on your Windows machine.
+
+    Installing the Go programming language:
+    \begin{itemize}
+        \item Please follow \underline{\href{https://go.dev/doc/install}{this}} tutorial
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Demo - File structure}
+
+    \begin{lstlisting}[language=Bash,basicstyle=\footnotesize]
+go/
+    assets/
+        index.html
+        main.wasm
+        wasm_exec.js
+    cmd/
+        server/
+            main.go
+        wasm/
+            main.go
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Demo - main.go}
+    \begin{lstlisting}[language=Go,basicstyle=\footnotesize]
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("Hello World!")
+}
+
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Demo - Compilation}
+    To compile your main.go to a WebAssembly main.wasm file, execute the following command in the wasm directory:
+
+    \begin{lstlisting}[language=Bash,basicstyle=\footnotesize]
+GOOS=js GOARCH=wasm go build -o  ../../assets/main.wasm
+    \end{lstlisting}
+
+    You should now be able to locate a \lstinline{main.wasm} file inside your \lstinline{assets} folder.
+\end{frame}
+
+\begin{frame}[fragile]{Demo - JavaScript Glue Code}
+    Some JavaScript code is needed to import the WebAssembly Module we just created in the Browser. Fortunately, this code comes with every Go installation. So just go ahead and copy the file into your \lstinline{assets} directory:
+
+    \begin{lstlisting}[language=Bash,basicstyle=\footnotesize]
+cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
+\end{lstlisting}
+\end{frame}
+
+% The WebAssembly.instantiateStreaming() function compiles and instantiates a WebAssembly module directly from a 
+% streamed underlying source. This is the most efficient, optimized way to load wasm code.
+\begin{frame}[fragile]{Demo - index.html}
+    \begin{lstlisting}[language=html,basicstyle=\footnotesize]
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <script src="wasm_exec.js"></script>
+        <script>
+            const go = new Go();
+
+            WebAssembly.instantiateStreaming(
+                fetch("main.wasm"), go.importObject
+            )
+            .then((result) => {
+                go.run(result.instance);
+            })
+        </script>
+    </head>
+    <body></body>
+</html>
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Demo - cmd/server/main.go}
+    \begin{lstlisting}[language=html,basicstyle=\footnotesize]
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+func main() {
+    err := http.ListenAndServe(
+        ":9090", 
+        http.FileServer(http.Dir("../../assets"))
+    )
+    if err != nil {
+	fmt.Println("Failed to start server", err)
+	return
+    }
+}
+
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Demo - Execution}
+Now you can run your server and inspect the outcome. Make sure you are in the \lstinline{server} directory, when executing this command:
+\begin{lstlisting}[language=bash,basicstyle=\footnotesize]
+go run main.go
+\end{lstlisting}
+
+Now you should be able to inspect the result in your browser: 
+\begin{figure}
+    \includegraphics[scale=0.3]{./images/demo.png}
+    \caption{\href{https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/}{Performance-Entwicklung im Web-Kontext}}
+\end{figure}
+\end{frame}
+
+% Add terminlogy but don't talk about it in the presentation. It should be clear after the Demo
+\begin{frame}{Terminology}
+
 \end{frame}
 
 \end{document}
