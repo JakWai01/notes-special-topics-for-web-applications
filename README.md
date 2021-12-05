@@ -304,6 +304,9 @@ func add(a int, b int) int {
 - Nochmal definition einbinden 
 - Usecases
 - Wo wird WASM gerade eingesetzt?
+  - Blazor 
+  - yew rust 
+  - reddit post about figma zoom and jiti
 - Vor der Demo noch kurz zu WAT, dann die DEMO, in welcher die Terminologie erklärt wird
 - Demo: A simple Wasm application 
   - necessary components (glue code)
@@ -328,5 +331,6 @@ func add(a int, b int) int {
 - WAGI
   - what can it do for us? 
   - Demo
+- Should you consider WASM? (look at Reddit post again)
 - Conclusion
 - Show the Web Shop where you can buy Webs. Front- und Backend mit Go und WASM
