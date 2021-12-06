@@ -247,6 +247,8 @@ func add(a int, b int) int {
 - Index html with boilerplate 
 - The instantiateStreaming function is used to initialize our json.wasm WebAssembly module. This function returns a WebAssembly instance which contains the list of WebAssembly functions that can be called from JavaScript. This is required to call our wasm functions from JavaScript.  
 
+- Rust compilation with: `wasm-pack build --target web`
+
 ## Resources
 - https://app.element.io/#/room/!zfXkSajYpjFUicXtCA:matrix.org
 - https://webassembly.org/
@@ -310,10 +312,12 @@ func add(a int, b int) int {
 - Vor der Demo noch kurz zu WAT, dann die DEMO, in welcher die Terminologie erklärt wird
 - TODO: Terminology
 - TODO: Add more examples in other languages. Just show the result. Add demos with imports, export etc...
-- TODO: How does JavaScript run in the browser
+- TODO: How does JavaScript run in the browser and how does WASM do it then
 - Demo: A simple Wasm application 
   - necessary components (glue code)
   - compilation target
+- Demo: Some more language examples before the terminology
+- Demos of Imports, Exports... (everything that is shown in WASMByExample)
 - Efficient and fast
   - comparison to asm.js
   - startup time

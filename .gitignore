@@ -1,3 +1,4 @@
 *.wasm
 webassembly.*
 !webassembly.tex
+target
