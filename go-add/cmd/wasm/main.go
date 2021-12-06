@@ -10,7 +10,7 @@ import (
 func main() {
 	fmt.Println("Golang Add Example")
 	js.Global().Set("add", addWrapper())
-	<-make(chan bool)
+	select {}
 }
 
 // This exports an add function.
