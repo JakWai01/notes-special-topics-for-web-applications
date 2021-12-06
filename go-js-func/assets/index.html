@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <link rel="shortcut icon" href="#">
+        <script src="wasm_exec.js"></script>
+        <script src="lib.js"></script>
+        <script>
+            const go = new Go();
+
+            // The WebAssembly.instantiateStreaming() function compiles and instantiates a WebAssembly module directly from a 
+            // streamed underlying source. This is the most efficient, optimized way to load wasm code.
+            WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject).then((result) => {
+                go.run(result.instance);
+            })
+        </script>
+    </head>
+    <body></body>
+</html>

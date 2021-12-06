@@ -270,6 +270,7 @@ func add(a int, b int) int {
 - https://en.wikipedia.org/wiki/Basic_block
 - https://www.geeksforgeeks.org/basic-blocks-in-compiler-design/
 - https://deislabs.io/posts/introducing-wagi-easiest-way-to-build-webassembly-microservices/
+- https://egghead.io/lessons/go-access-js-functions-and-variables-from-a-go-webassembly-program
 
 ## Interesting Links
 - https://wasdk.github.io/WasmFiddle/
