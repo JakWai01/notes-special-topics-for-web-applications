@@ -308,6 +308,9 @@ func add(a int, b int) int {
   - yew rust 
   - reddit post about figma zoom and jiti
 - Vor der Demo noch kurz zu WAT, dann die DEMO, in welcher die Terminologie erklärt wird
+- TODO: Terminology
+- TODO: Add more examples in other languages. Just show the result. Add demos with imports, export etc...
+- TODO: How does JavaScript run in the browser
 - Demo: A simple Wasm application 
   - necessary components (glue code)
   - compilation target
@@ -333,4 +336,4 @@ func add(a int, b int) int {
   - Demo
 - Should you consider WASM? (look at Reddit post again)
 - Conclusion
-- Show the Web Shop where you can buy Webs. Front- und Backend mit Go und WASM
+- Showdown: Show the Web Shop where you can buy Webs. Front- und Backend mit Go und WASM
