@@ -14,14 +14,14 @@
         </script>
     </head>
     <body>
-        <textarea id="jsoninputa" name="jsoninput" cols="20" rows="1"></textarea>
-        <textarea id="jsoninputb" name="jsoninput" cols="20" rows="1"></textarea>
-        <input id="button" type="submit" name="button" value="pretty json" onclick="json(jsoninputa.value, jsoninputb.value)"/>
-        <textarea id="jsonoutput" name="jsonoutput" cols="20" rows="1"></textarea>
+        <textarea id="addinputa" name="addinput" cols="20" rows="1"></textarea>
+        <textarea id="addinputb" name="addinput" cols="20" rows="1"></textarea>
+        <input id="button" type="submit" name="button" value="add" onclick="addfunc(addinputa.value, addinputb.value)"/>
+        <textarea id="addoutput" name="addoutput" cols="20" rows="1"></textarea>
     </body>
     <script>
-        var json = function(a, b) {
-            jsonoutput.value = add(parseInt(a), parseInt(b))
+        var addfunc = function(a, b) {
+            addoutput.value = add(parseInt(a), parseInt(b))
         } 
     </script>
 </html>
