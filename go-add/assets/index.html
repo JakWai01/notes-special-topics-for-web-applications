@@ -13,5 +13,15 @@
             })
         </script>
     </head>
-    <body></body>
+    <body>
+        <textarea id="jsoninputa" name="jsoninput" cols="20" rows="1"></textarea>
+        <textarea id="jsoninputb" name="jsoninput" cols="20" rows="1"></textarea>
+        <input id="button" type="submit" name="button" value="pretty json" onclick="json(jsoninputa.value, jsoninputb.value)"/>
+        <textarea id="jsonoutput" name="jsonoutput" cols="20" rows="1"></textarea>
+    </body>
+    <script>
+        var json = function(a, b) {
+            jsonoutput.value = add(parseInt(a), parseInt(b))
+        } 
+    </script>
 </html>
