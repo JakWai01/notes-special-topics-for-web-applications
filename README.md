@@ -295,8 +295,6 @@ func add(a int, b int) int {
 
 ## WASM
 - TODO: How does JavaScript run in the browser and how does WASM do it then, think about where to add this. How to do it technically before the demo
-- Add demos to slides
-- After demo write about Linear Memory feature, Dom Manipulation (which we will see in the end)
 - Efficient and fast
   - comparison to asm.js
   - startup time
