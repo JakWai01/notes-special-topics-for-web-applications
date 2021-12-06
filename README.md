@@ -280,6 +280,7 @@ func add(a int, b int) int {
 - https://hacks.mozilla.org/2019/11/announcing-the-bytecode-alliance/ - Bytecode allegiance
 
 ## TODO
+- WASM Web API
 - Go through WASMByExample concepts
 - Explain the necessity of every component used to run WASM in the browser
 - Call javascript from wasm and the other way around
@@ -289,35 +290,11 @@ func add(a int, b int) int {
 - Actually build a tool using nearly all the possible tools simultaneously
 - Look at the things mentioned in the slide
   - Component Model
+- What are the boundaries of WASM so far?
 
 ## WASM
-- WebAssembly - a short introduction
-  - Motivation Wasm
-  - Usecases TODO: at the end of the definition
-  - Key concepts: 
-    - binary instruction format
-    - stack based virtual machine
-    - webassembly text TODO: seperate, this does not belong to the fundamentals
-      - structure
-    - keywords: module, memory, table, instance, exports TODO: seperate, this does not belong to the fundamentals
-    - portable compilation target 
-    - deployment
-    - the web platform
-- Nochmal definition einbinden 
-- Usecases
-- Wo wird WASM gerade eingesetzt?
-  - Blazor 
-  - yew rust 
-  - reddit post about figma zoom and jiti
-- Vor der Demo noch kurz zu WAT, dann die DEMO, in welcher die Terminologie erklärt wird
-- TODO: Terminology
-- TODO: Add more examples in other languages. Just show the result. Add demos with imports, export etc...
-- TODO: How does JavaScript run in the browser and how does WASM do it then
-- Demo: A simple Wasm application 
-  - necessary components (glue code)
-  - compilation target
-- Demo: Some more language examples before the terminology
-- Demos of Imports, Exports... (everything that is shown in WASMByExample)
+- TODO: How does JavaScript run in the browser and how does WASM do it then, think about where to add this. How to do it technically before the demo
+- Demo like WASMByExample
 - Efficient and fast
   - comparison to asm.js
   - startup time
