@@ -314,8 +314,9 @@ Essentially same procedure. This time, exchange the contents of the following fi
 \begin{frame}{Additional Information}
 \begin{itemize}
     \item Linear Memory - Continuous buffer of unsigned bytes that can be read from and stored into by both Wasm and Javascript
-    \item Dom Manipulation - The syscall/js package can also be used to interact with the DOM
+    \item Dom Manipulation - The syscall/js package can also be used to interact with the DOM. WASM can not directly interact with the DOM! It has to call JS!
     \item E.g. Rust is using wasm-bindgen to achieve the same as Go with syscall/js, AssemblyScript provides those features out of the box...
+    \item WASM function only support ints and floats. To work with other data types, linear memory can be used
 \end{itemize}
 \end{frame}
 
@@ -328,5 +329,166 @@ Essentially same procedure. This time, exchange the contents of the following fi
     \item \textbf{Instance}: A Module paired with all the state it uses at runtime including a Memory, Table, and set of imported values. An Instance is like an ES2015 module that has been loaded into a particular global with a particular set of imports.
 \end{itemize}
 \end{frame}
+
+\begin{frame}{Evaluation}
+    \begin{figure}
+        \includegraphics[scale=0.2]{./images/webassembly_org.png}
+        \caption{\href{https://webassembly.org/}{webassembly.org}}
+    \end{figure}
+\end{frame}
+
+% Comparison between JS and WASM. Also talk about asm.js
+\begin{frame}{Efficient and fast}
+     \begin{figure}
+        \includegraphics[scale=0.3]{./images/javascriptgraph.png}
+        \caption{\href{https://www.smashingmagazine.com/2017/05/abridged-cartoon-introduction-webassembly/}{Time distribution when running JavaScript}}
+    \end{figure}
+     \begin{figure}
+        \includegraphics[scale=0.4]{./images/wasmgraph.png}
+        \caption{\href{https://www.smashingmagazine.com/2017/05/abridged-cartoon-introduction-webassembly/}{Time distribution when running WebAssembly}}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Efficient and fast - Fetching}
+      \begin{figure}
+        \includegraphics[scale=0.2]{./images/file.jpg}
+        \caption{\href{https://icon-library.com/icon/download-icon-file-4.html}{Fetch}}
+    \end{figure}
+\begin{itemize}
+    \item Fetching (not on diagram): Fetching file from server. WASM more compact as it's designed that way. WASM is even smaller than a gzipped JavaScript file
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Efficient and fast - Parsing}
+      \begin{figure}
+        \includegraphics[scale=0.2]{./images/pasedecode.png}
+        \caption{\href{https://www.smashingmagazine.com/2017/05/abridged-cartoon-introduction-webassembly/}{Parse}}
+    \end{figure}
+\begin{itemize}
+    \item Javascript gets parsed to AST (lazy). From there the JS code is parsed to intermediate representation (byte code). WASM does not need this step because we already get bytecode. WASM bytecode just needs to be decoded and validated
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Efficient and fast - Compilation + Optimization}
+      \begin{figure}
+        \includegraphics[scale=0.2]{./images/copyoptimize.png}
+        \caption{\href{https://www.smashingmagazine.com/2017/05/abridged-cartoon-introduction-webassembly/}{Compilation}}
+    \end{figure}
+\begin{itemize}
+    \item JS is compiled during the execution of the code. Because types are dynamic, multiple versions of the same code may need to be compiled. 
+    \item WebAssembly saves time with regards to: 
+    \begin{itemize}
+       \item Don't need to figure out used types
+       \item Ahead of time optimizations in e.g. LLVM 
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Efficient and fast - Reoptimizaion}
+      \begin{figure}
+        \includegraphics[scale=0.2]{./images/re-optimize.png}
+        \caption{\href{https://www.smashingmagazine.com/2017/05/abridged-cartoon-introduction-webassembly/}{Reoptimization}}
+    \end{figure}
+\begin{itemize}
+    \item JIT assumptions about the code may be incorrect and a rollback is needed
+    \item Deoptimization happens when variables in a loop are different than they were in previous iterations
+    \item WebAssembly does not need reoptimization since types are explicit an no assumptions about them are necessary during runtime
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Effecient and fast - Execution}
+   \begin{figure}
+        \includegraphics[scale=0.2]{./images/execution.png}
+        \caption{\href{https://www.smashingmagazine.com/2017/05/abridged-cartoon-introduction-webassembly/}{Execution}}
+    \end{figure} 
+    \begin{itemize}
+        \item Most developers don't know about JIT internals, so writing performant JS code is hard
+        \item WASM is designed to be a compiler target, not a human readable language. Instruction set is optimized for machines
+        \item Speedup up to 800\% 
+        \item WebAssembly executes at "native speed"
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Effecient and fast - Garbage Collection}
+   \begin{figure}
+        \includegraphics[scale=0.2]{./images/garbage.png}
+        \caption{\href{https://www.smashingmagazine.com/2017/05/abridged-cartoon-introduction-webassembly/}{Garbage Collection}}
+    \end{figure} 
+    \begin{itemize}
+        \item JavaScript uses garbage collector to clear unused variables from memory 
+        \item Not knowing when a garbage collector works can lead to unpredictable performance
+        \item So far, WebAssembly does not support garbage collection
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Evaluation}
+    \begin{figure}
+        \includegraphics[scale=0.2]{./images/webassembly_org.png}
+        \caption{\href{https://webassembly.org/}{webassembly.org}}
+    \end{figure}
+\end{frame}
+
+% Hier fehlt eine Komponente: WASI, damit wir das richtig realisieren können. Trotz dessen beleuchten wir erst die Security und diese Grafik kann dies hervorragend beleuchten.
+% \item When the operating system gets asked some input or output, it needs to determine if one is allowed the information $\rightarrow$ Ownership and Groups
+% \item Protects users from each other and was useful back in time when systems were multi-user systems
+% \item Nowadays it's actually more important to protect the user from itself, since most systems are single user systems
+% \item We are pulling in so much third party code that whe need to control over what it can do $rightarrow$ Sandboxing
+% \item Can't directly talk to the OS. Instead create a sandbox, we lock the program in and expose some functions to it with just the allowed functionality
+% \item Isn't automatically secure, since the host still can grant full permissions which would be no better than the first time
+\begin{frame}{Security}
+     \begin{figure}
+        \includegraphics[scale=0.07]{./images/sandbox.png}
+        \caption{\href{https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/}{Sandboxing}}
+    \end{figure}
+\end{frame}
+ 
+% \item In normal OS, if code needs to open file, it calls the open function containing a string with the path to the file. This succeeds if the user has necessary permissions. 
+% \item Instead if you call a function interacting with the files in WASI, you have to pass a file descriptor, which has permissions attached to it. This way you can't randomly open a file. Instead the code can only operate in the directory it was given.
+% \item So the runtime passes in the file descriptors that an app can use at the top level code. The code itself can then propagate those file descriptors through the rest of the modules needed (Insert cude picture here)
+\begin{frame}{Security}
+     \begin{figure}
+        \includegraphics[scale=0.06]{./images/file.png}
+        \caption{\href{https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/}{File Descriptor}}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Security}
+    \begin{itemize}
+        \item Sandboxing as a more modern way to handle access rights
+        \item Force same-origin and permission security of the browser
+        \item Control-Flow-Integrity
+        \item Eliminate dangerous features while maintaining compatibility with C/C++
+        \begin{itemize}
+            \item Function calls must specify index of target to a valid entry in the function index space or table index space
+            \item Indirect function calls are subject to a type signature check at runtime
+            \item Protected call stack that is invulnerable to buffer overflows
+            \item Branches must point to valid destinations within the enclosing function
+        \end{itemize}
+        \item Memory safe
+        \begin{itemize} 
+            \item Variables are stored in index space, are fixed-size and addressed by index. CFI and protected call stacks prevent direct code injection attacks
+            \item Unsafe pointer semantic removed. References to invalid indexes in any index space cause validation error
+        \end{itemize}
+        \item Attack Surface: 
+        \begin{itemize}
+            \item Hijack the control flow of a module using code reuse attacks against indirect calls
+            \item Race conditions - time of check to time of use vulnerabilities 
+            \item Side Channel Attacks like timing attacks against modules. Read more \href{https://github.com/tc39/ecmascript_sharedmem/blob/master/issues/TimingAttack.md}{here}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Security - Attack Surface}
+    \begin{itemize}
+        \item Hijack the control flow of a module using code reuse attacks against indirect calls
+        \item Race conditions - time of check to time of use vulnerabilities 
+        \item Side Channel Attacks like \href{https://github.com/tc39/ecmascript_sharedmem/blob/master/issues/TimingAttack.md}{timing attacks} against modules
+        \item Probably some more... 
+    \end{itemize}
+\end{frame}
+
+% Wasmer, wasmtime, lucait, wamr - bytecode allegiance
+% WASI
+% WAGI
 
 \end{document}

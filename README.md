@@ -294,16 +294,11 @@ func add(a int, b int) int {
 - What are the boundaries of WASM so far?
 
 ## WASM
-- TODO: How does JavaScript run in the browser and how does WASM do it then, think about where to add this. How to do it technically before the demo
-- Efficient and fast
-  - comparison to asm.js
-  - startup time
-  - cpu features
-  - compiler optimizations
 - Safe
   - ownership and groups? still useful?
   - sandboxing/containerization and how it works in the case of WebAssembly
   - Demo
+Die folgenden Punkte eher kurz fassen, eher noch mehr darauf eingehen wie es funktioniert.
 - Wasmer, wasmtime (Lucit, WAMR ) - Bytecode allegiance
   - run wasm outside of the browser
   - Demos
@@ -316,5 +311,5 @@ func add(a int, b int) int {
   - what can it do for us? 
   - Demo
 - Should you consider WASM? (look at Reddit post again)
-- Conclusion
+- Conclusion (Wo geht die Reise hin?)
 - Showdown: Show the Web Shop where you can buy Webs. Front- und Backend mit Go und WASM (Show how to interact with the DOM from Go)
