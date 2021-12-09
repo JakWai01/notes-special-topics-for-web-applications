@@ -2,3 +2,4 @@
 webassembly.*
 !webassembly.tex
 target
+web-shop/cmd/cmd

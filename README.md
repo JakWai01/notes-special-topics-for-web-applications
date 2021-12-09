@@ -292,8 +292,9 @@ func add(a int, b int) int {
 - Actually build a tool using nearly all the possible tools simultaneously
 - Look at the things mentioned in the slide
   - Component Model
-- What are the boundaries of WASM so far?
+- What are the boundaries of WASM so far? Can I write backends etc?
 
 ## WASM
 - Bytecode allegiance since 2021
 - Showdown: Show the Web Shop where you can buy Webs. Front- und Backend mit Go und WASM (Show how to interact with the DOM from Go)
+- Projektstruktur eines Projektes, welches WASM verwendet
