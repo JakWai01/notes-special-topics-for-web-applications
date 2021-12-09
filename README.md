@@ -195,6 +195,7 @@ func add(a int, b int) int {
     6)  t4 = t3 - 88
     7)  a[t4] = 0.0
     8)  j = j + 1
+
     9)  if j <= goto (3)       
     10) i = i + 1                    //Leader 4 (Immediately following Conditional goto statement)
     11) if i <= 10 goto (2)
@@ -294,10 +295,6 @@ func add(a int, b int) int {
 - What are the boundaries of WASM so far?
 
 ## WASM
-- Safe
-  - ownership and groups? still useful?
-  - sandboxing/containerization and how it works in the case of WebAssembly
-  - Demo
 Die folgenden Punkte eher kurz fassen, eher noch mehr darauf eingehen wie es funktioniert.
 - Wasmer, wasmtime (Lucit, WAMR ) - Bytecode allegiance
   - run wasm outside of the browser
