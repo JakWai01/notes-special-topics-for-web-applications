@@ -295,18 +295,5 @@ func add(a int, b int) int {
 - What are the boundaries of WASM so far?
 
 ## WASM
-Die folgenden Punkte eher kurz fassen, eher noch mehr darauf eingehen wie es funktioniert.
-- Wasmer, wasmtime (Lucit, WAMR ) - Bytecode allegiance
-  - run wasm outside of the browser
-  - Demos
-- WASI
-  - system interface? 
-  - solution before wasi
-  - what does wasi do?
-  - Demo
-- WAGI
-  - what can it do for us? 
-  - Demo
-- Should you consider WASM? (look at Reddit post again)
-- Conclusion (Wo geht die Reise hin?)
+- Bytecode allegiance since 2021
 - Showdown: Show the Web Shop where you can buy Webs. Front- und Backend mit Go und WASM (Show how to interact with the DOM from Go)

@@ -256,6 +256,7 @@ func main() {
     \end{lstlisting}
 \end{frame}
 
+% Show rust demo as well
 \begin{frame}[fragile]{Demo - Execution}
     Now you can run your server and inspect the outcome. Make sure you are in the \lstinline{server} directory, when executing this command:
     \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
@@ -487,15 +488,18 @@ $ go run main.go
     \end{itemize}
 \end{frame}
 
-% Wasmer, wasmtime, lucait, wamr - bytecode allegiance
+% Lucet is deprecated for wasmtime
+% Add a bit more theory
 \begin{frame}{WebAssembly Runtimes}
     \begin{itemize}
         \item Goal: Run WebAssembly outside of the browser
         \item Wasmer - lightweight containers that run everywhere
         \item Wasmtime - standalone JIT style runtime based on cranelift
+        \item WebAssembly Micro Runtime (WAMR)
     \end{itemize}
 \end{frame}
 
+% Show wasmer demo as well
 \begin{frame}[fragile]{Demo - wasmtime}
     \textbf{Install Rust:}
     \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
@@ -524,8 +528,73 @@ Hello World!
     \end{lstlisting}
 \end{frame}
 
-% WASI
 
-% WAGI
+\begin{frame}{WebAssembly Sytem Interface - WASI}
+    \begin{quotation}
+        "Developers are starting to push WebAssembly beyond the browser [...]. Code outside of a browser needs a way to talk to the system [...]. And the WebAssembly platform doesn’t have that yet." - Lin Clark
+    \end{quotation}
+\end{frame}
+
+% WASI - read Article
+% Use preopened directories as root (based on libpreopen)
+\begin{frame}{WebAssembly System Interface - WASI}
+\begin{itemize} 
+    \item Interact with system using syscalls
+    \item Normally, the standard library of a programming language provides said system interface which is os-dependent
+    \item E.g. \lstinline{prinft} being compiled for a Windows machine could use the Windows API to interact with the machine. If it's being compiled for Mac or Linux, POSIX will be used
+    \item With WASM you don't know which operating system you're targeting even when you're compiling. So you can't use any single OS system interface 
+    \item Portability and Security with Sandboxing
+\end{itemize}
+\end{frame}
+
+% Hier fehlt eine Komponente: WASI, damit wir das richtig realisieren können. Trotz dessen beleuchten wir erst die Security und diese Grafik kann dies hervorragend beleuchten.
+% \item When the operating system gets asked some input or output, it needs to determine if one is allowed the information $\rightarrow$ Ownership and Groups
+% \item Protects users from each other and was useful back in time when systems were multi-user systems
+% \item Nowadays it's actually more important to protect the user from itself, since most systems are single user systems
+% \item We are pulling in so much third party code that whe need to control over what it can do $rightarrow$ Sandboxing
+% \item Can't directly talk to the OS. Instead create a sandbox, we lock the program in and expose some functions to it with just the allowed functionality
+% \item Isn't automatically secure, since the host still can grant full permissions which would be no better than the first time
+\begin{frame}{WebAssembly System Interface - WASI}
+    \begin{figure}
+        \includegraphics[scale=0.07]{./images/sandbox.png}
+        \caption{\href{https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/}{Sandboxing}}
+    \end{figure}
+\end{frame}
+
+% \item In normal OS, if code needs to open file, it calls the open function containing a string with the path to the file. This succeeds if the user has necessary permissions. 
+% \item Instead if you call a function interacting with the files in WASI, you have to pass a file descriptor, which has permissions attached to it. This way you can't randomly open a file. Instead the code can only operate in the directory it was given.
+% \item So the runtime passes in the file descriptors that an app can use at the top level code. The code itself can then propagate those file descriptors through the rest of the modules needed (Insert cude picture here)
+\begin{frame}{WebAssembly System Interface - WASI}
+    \begin{figure}
+        \includegraphics[scale=0.06]{./images/file.png}
+        \caption{\href{https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/}{File Descriptor}}
+    \end{figure}
+\end{frame}
+
+% WAGI - Read infoq article
+\begin{frame}{WebAssembly Gateway Interface - WAGI}
+    \begin{itemize}
+        \item HTTP handlers using STDIN and STDOUT and environment variables
+        \item Write microservices and web apps
+        \item Problem this tries to solve: A wasm binary is no server. It is not actively listening. It doesn't even need to run all the time. So how do we get HTTP requests?
+        \item When HTTP request is received the WASM binary gets executed with the necessary Information contained in STDIN and environment variables. Replies are sent to STDOUT and binary can terminate again.
+        \item WAGI-Server can be used
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusion}
+WASM does't have direct access to the DOM, so for all DOM interaction it has to go through JS with a bunch of glue code between. Which means for most normal websites plain JS will be faster than JS + glue code + WASM. If you have some functionality that could really benefit from performance and doesn't just lose it all thorugh foreign function interfaces (FFI) and DOM interaction, then WASM can be really benefitial.
+\end{frame}
+
+\begin{frame}{Conclusion}
+    \begin{figure}
+        \includegraphics[width=0.7\textwidth,height=0.7\textheight]{./images/perf_history.png}
+        \caption{\href{https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/}{Performance-Entwicklung im Web-Kontext}}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Webshop}
+
+\end{frame}
 
 \end{document}
