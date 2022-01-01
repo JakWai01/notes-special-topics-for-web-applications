@@ -1,7 +1,9 @@
 \documentclass{beamer}
 \usepackage{graphicx}
 \usepackage{listings}
-\usetheme{metropolis}
+\usepackage{multicol}
+% \usetheme{metropolis}
+\usetheme{Rochester}
 
 \title[WebAssembly]{WebAssembly}
 \author{Jakob Waibel}
@@ -15,11 +17,14 @@
 \end{frame}
 
 \begin{frame}
+    \setbeamerfont{subsection in toc}{size=\small}
     \frametitle{Agenda}
+    \begin{multicols}{2}
     \tableofcontents
+    \end{multicols}
 \end{frame}
 
-\section{Einführung}
+\section{Introduction}
 
 \begin{frame}{Motivation}
     \begin{figure}
@@ -27,6 +32,10 @@
         \caption{\href{https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/}{Performance-Entwicklung im Web-Kontext}}
     \end{figure}
 \end{frame}
+
+\section{Key Concepts}
+
+\subsection{Definition}
 
 \begin{frame}{Definition}
     \begin{figure}
@@ -48,6 +57,8 @@
     \end{quotation}
 \end{frame}
 
+\subsection{Binary Instruction Format}
+
 \begin{frame}{Binary Instruction Format}
     \begin{itemize}
         \item Machine instruction format consisting of \textbf{1s and 0s} that can be directly decoded and \textbf{executed by the CPU}
@@ -57,6 +68,8 @@
     \end{itemize}
 \end{frame}
 
+\subsection{Stack-Based Virtual Machine}
+
 \begin{frame}{Stack-Based Virtual Machine}
     \begin{itemize}
         \item Virtual machine which uses stacks to perform oprations
@@ -65,6 +78,8 @@
         \item When the browser translates WASM to the machine code for the machine the browser is running on, it will use registers. Since the WASM specification does not specify registers, it gives the browser more flexibility to use the best register allocation for  that machine
     \end{itemize}
 \end{frame}
+
+\subsection{Portable Compilation Target}
 
 \begin{frame}{Portable Compilation Target}
     \begin{itemize}
@@ -79,6 +94,8 @@
               \end{itemize}
     \end{itemize}
 \end{frame}
+
+\subsection{Deployment on the Web Platform}
 
 \begin{frame}{Deployment on the Web Platform}
     \begin{itemize}
@@ -98,6 +115,8 @@
         "\textbf{WebAssembly} (abbreviated Wasm) is a \textbf{binary instruction format} for a \textbf{stack-based virtual machine}. Wasm is designed as a \textbf{portable compilation target} for programming languages, \textbf{enabling deployment on the web} for client and server applications."
     \end{quotation}
 \end{frame}
+
+\subsection{Use Cases}
 
 \begin{frame}{Use Cases}
     Considered by the W3C as now more feasable inside the browser:
@@ -131,6 +150,7 @@
     \end{itemize}
 \end{frame}
 
+\subsection{WebAssembly Text}
 % Talk about S-expressions, import, exports, types, globals and shared memory and talk about why it might be not that relevant for the "normal" webdev
 \begin{frame}[fragile]{WebAssembly Text}
     \begin{itemize}
@@ -151,6 +171,8 @@
         \item For more information, consider visiting the \href{https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format}{MDN Web Docs}
     \end{itemize}
 \end{frame}
+
+\section{Demo}
 
 \begin{frame}{Demo - Prerequisites}
     Disclaimer: This Demo is using the \href{https://go.dev/}{Go} programming language. You don't need any knowledge about Go to follow this Demo. Furthermore, I am using Linux! I can't guarantee, nor do I care, that it works on your Windows machine.
@@ -190,6 +212,8 @@ func main() {
 
     \end{lstlisting}
 \end{frame}
+
+\subsection{Compilation}
 
 \begin{frame}[fragile]{Demo - Compilation}
     To compile your main.go to a WebAssembly main.wasm file, execute the following command in the wasm directory:
@@ -256,6 +280,8 @@ func main() {
     \end{lstlisting}
 \end{frame}
 
+\subsection{Execution}
+
 % Show rust demo as well
 \begin{frame}[fragile]{Demo - Execution}
     Now you can run your server and inspect the outcome. Make sure you are in the \lstinline{server} directory, when executing this command:
@@ -269,6 +295,8 @@ $ go run main.go
         \caption{\href{https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/}{Performance-Entwicklung im Web-Kontext}}
     \end{figure}
 \end{frame}
+
+\subsection{Exports}
 
 \begin{frame}{Demo - Exports}
     Essentially same procedure. Just exchange the contents of the following files:
@@ -286,6 +314,8 @@ $ go run main.go
     \end{figure}
 
 \end{frame}
+
+\subsection{Imports}
 
 \begin{frame}{Demo - Imports}
     Essentially same procedure. This time, exchange the contents of the following files:
@@ -331,6 +361,8 @@ $ go run main.go
     \end{itemize}
 \end{frame}
 
+\section{Evaluation}
+
 \begin{frame}{Evaluation}
     \begin{figure}
         \includegraphics[scale=0.2]{./images/webassembly_org.png}
@@ -350,6 +382,8 @@ $ go run main.go
     \end{figure}
 \end{frame}
 
+\subsection{Fetching} 
+
 \begin{frame}{Efficient and fast - Fetching}
     \begin{figure}
         \includegraphics[scale=0.2]{./images/file.jpg}
@@ -360,6 +394,8 @@ $ go run main.go
     \end{itemize}
 \end{frame}
 
+\subsection{Parsing}
+
 \begin{frame}{Efficient and fast - Parsing}
     \begin{figure}
         \includegraphics[scale=0.2]{./images/pasedecode.png}
@@ -369,6 +405,8 @@ $ go run main.go
         \item Javascript gets parsed to AST (lazy). From there the JS code is parsed to intermediate representation (byte code). WASM does not need this step because we already get bytecode. WASM bytecode just needs to be decoded and validated
     \end{itemize}
 \end{frame}
+
+\subsection{Compilation + Optimization}
 
 \begin{frame}{Efficient and fast - Compilation + Optimization}
     \begin{figure}
@@ -385,6 +423,8 @@ $ go run main.go
     \end{itemize}
 \end{frame}
 
+\subsection{Reoptimization}
+
 \begin{frame}{Efficient and fast - Reoptimizaion}
     \begin{figure}
         \includegraphics[scale=0.2]{./images/re-optimize.png}
@@ -396,6 +436,8 @@ $ go run main.go
         \item WebAssembly does not need reoptimization since types are explicit an no assumptions about them are necessary during runtime
     \end{itemize}
 \end{frame}
+
+\subsection{Execution}
 
 \begin{frame}{Effecient and fast - Execution}
     \begin{figure}
@@ -409,6 +451,8 @@ $ go run main.go
         \item WebAssembly executes at "native speed"
     \end{itemize}
 \end{frame}
+
+\subsection{Garbage Collection}
 
 \begin{frame}{Effecient and fast - Garbage Collection}
     \begin{figure}
@@ -436,6 +480,9 @@ $ go run main.go
 % \item We are pulling in so much third party code that whe need to control over what it can do $rightarrow$ Sandboxing
 % \item Can't directly talk to the OS. Instead create a sandbox, we lock the program in and expose some functions to it with just the allowed functionality
 % \item Isn't automatically secure, since the host still can grant full permissions which would be no better than the first time
+
+\section{Security}
+
 \begin{frame}{Security}
     \begin{figure}
         \includegraphics[scale=0.07]{./images/sandbox.png}
@@ -465,17 +512,11 @@ $ go run main.go
                   \item Protected call stack that is invulnerable to buffer overflows
                   \item Branches must point to valid destinations within the enclosing function
               \end{itemize}
-        \item Memory safe
-              \begin{itemize}
-                  \item Variables are stored in index space, are fixed-size and addressed by index. CFI and protected call stacks prevent direct code injection attacks
-                  \item Unsafe pointer semantic removed. References to invalid indexes in any index space cause validation error
-              \end{itemize}
-        \item Attack Surface:
-              \begin{itemize}
-                  \item Hijack the control flow of a module using code reuse attacks against indirect calls
-                  \item Race conditions - time of check to time of use vulnerabilities
-                  \item Side Channel Attacks like timing attacks against modules. Read more \href{https://github.com/tc39/ecmascript_sharedmem/blob/master/issues/TimingAttack.md}{here}
-              \end{itemize}
+        \item Memory Safety
+            \begin{itemize}
+                \item Variables are stored in index space, are fixed-size and addressed by index. CFI and protected call stacks prevent direct code injection attacks
+                \item Unsafe pointer semantic removed. References to invalid indexes in any index space cause validation error
+            \end{itemize}
     \end{itemize}
 \end{frame}
 
@@ -490,6 +531,10 @@ $ go run main.go
 
 % Lucet is deprecated for wasmtime
 % Add a bit more theory
+\section{Advanced Concepts}
+
+\subsection{WebAssembly Runtimes}
+
 \begin{frame}{WebAssembly Runtimes}
     \begin{itemize}
         \item Goal: Run WebAssembly outside of the browser
@@ -528,6 +573,7 @@ Hello World!
     \end{lstlisting}
 \end{frame}
 
+\subsection{WebAssembly System Interface - WASI}
 
 \begin{frame}{WebAssembly Sytem Interface - WASI}
     \begin{quotation}
@@ -571,6 +617,7 @@ Hello World!
     \end{figure}
 \end{frame}
 
+\subsection{WebAssembly Gateway Interface - WAGI}
 % WAGI - Read infoq article
 \begin{frame}{WebAssembly Gateway Interface - WAGI}
     \begin{itemize}
@@ -581,6 +628,8 @@ Hello World!
         \item WAGI-Server can be used
     \end{itemize}
 \end{frame}
+
+\section{Conclusion}
 
 \begin{frame}{Conclusion}
 WASM does't have direct access to the DOM, so for all DOM interaction it has to go through JS with a bunch of glue code between. Which means for most normal websites plain JS will be faster than JS + glue code + WASM. If you have some functionality that could really benefit from performance and doesn't just lose it all thorugh foreign function interfaces (FFI) and DOM interaction, then WASM can be really benefitial.
