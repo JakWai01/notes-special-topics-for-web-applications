@@ -177,7 +177,7 @@
 \begin{frame}{Demo - Prerequisites}
     Disclaimer: This Demo is using the \href{https://go.dev/}{Go} programming language. You don't need any knowledge about Go to follow this Demo. Furthermore, I am using Linux! I can't guarantee, nor do I care, that it works on your Windows machine.
 
-    Installing the Go programming language:
+    Installing Go:
     \begin{itemize}
         \item Please follow \underline{\href{https://go.dev/doc/install}{this}} tutorial
     \end{itemize}
@@ -282,6 +282,7 @@ func main() {
 
 \subsection{Execution}
 
+% Show resulting wasm file and code in the browser
 % Show rust demo as well
 \begin{frame}[fragile]{Demo - Execution}
     Now you can run your server and inspect the outcome. Make sure you are in the \lstinline{server} directory, when executing this command:
@@ -642,6 +643,9 @@ WASM does't have direct access to the DOM, so for all DOM interaction it has to 
     \end{figure}
 \end{frame}
 
+% Frontend in go. Can't access DOM directly and they have to be accessed through JS. 
+% Backend could be realized pretty easily. API endpoints using e.g. krustlet and WAGI or just JS calling WASM. 
+% Database can be used using JS or directly with WASM - sql-js compiled sqlite with emscripten to WASM
 \begin{frame}{Webshop}
 
 \end{frame}
