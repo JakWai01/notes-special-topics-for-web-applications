@@ -29,11 +29,11 @@
 \begin{frame}{Motivation}
     \begin{figure}
         \includegraphics[width=0.7\textwidth,height=0.7\textheight]{./images/perf_history.png}
-        \caption{\href{https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/}{Performance-Entwicklung im Web-Kontext}}
+        \caption{\href{https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/}{Performance on the Web}}
     \end{figure}
 \end{frame}
 
-\section{Key Concepts}
+\section{Key Concepts} 
 
 \subsection{Definition}
 
@@ -146,6 +146,7 @@
         \item Jitsi for virtual backgrounds
         \item Zoom for video encoding
         \item \href{https://wasm.continuation-labs.com/d3demo/}{D3wasm}
+        \item go-app
         \item ...
     \end{itemize}
 \end{frame}
@@ -156,20 +157,13 @@
     \begin{itemize}
         \item Textual representation of the binary format to allow reading and editing by humans
         \item Designed to be exposed in text editors, browser developer tools, etc.
-    \end{itemize}
-    \begin{lstlisting}[language=Lisp,basicstyle=\scriptsize]
-(module
-  (func $add (param $lhs i32) (param $rhs i32) (result i32)
-    local.get $lhs
-    local.get $rhs
-    i32.add)
-  (export "add" (func $add))
-)
-    \end{lstlisting}
-    \begin{itemize}
         \item .wat files can be compiled to .wasm using the WebAssembly Binary Toolkit (WABT)
         \item For more information, consider visiting the \href{https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format}{MDN Web Docs}
     \end{itemize}
+    \begin{figure}
+        \includegraphics[scale=0.3]{./images/wat.png}
+        \caption{WebAssembly Text}
+    \end{figure}
 \end{frame}
 
 \section{Demo}
@@ -184,42 +178,28 @@
 
 \end{frame}
 
-\begin{frame}[fragile]{Demo - File structure}
+\subsection{Hello World}
 
-    \begin{lstlisting}[language=Bash,basicstyle=\scriptsize]
-go/
-    assets/
-        index.html
-        main.wasm
-        wasm_exec.js
-    cmd/
-        server/
-            main.go
-        wasm/
-            main.go
-    \end{lstlisting}
+\begin{frame}{Demo - File structure}
+    \begin{figure}
+        \includegraphics[scale=0.5]{./images/structure.png}
+        \caption{File structure}
+    \end{figure}
 \end{frame}
 
-\begin{frame}[fragile]{Demo - main.go}
-    \begin{lstlisting}[language=Go,basicstyle=\scriptsize]
-package main
 
-import "fmt"
-
-func main() {
-	fmt.Println("Hello World!")
-}
-
-    \end{lstlisting}
+\begin{frame}{Demo - cmd/wasm/main.go}
+    \begin{figure}
+        \includegraphics[scale=0.5]{./images/main2.png}
+        \caption{main.go}
+    \end{figure}
 \end{frame}
-
-\subsection{Compilation}
 
 \begin{frame}[fragile]{Demo - Compilation}
     To compile your main.go to a WebAssembly main.wasm file, execute the following command in the wasm directory:
 
     \begin{lstlisting}[language=Bash,basicstyle=\scriptsize]
-$ GOOS=js GOARCH=wasm go build -o  ../../assets/main.wasm
+# GOOS=js GOARCH=wasm go build -o  ../../assets/main.wasm
     \end{lstlisting}
 
     You should now be able to locate a \lstinline{main.wasm} file inside your \lstinline{assets} folder.
@@ -229,70 +209,35 @@ $ GOOS=js GOARCH=wasm go build -o  ../../assets/main.wasm
     Some JavaScript code is needed to import the WebAssembly Module we just created in the Browser. Fortunately, this code comes with every Go installation. So just go ahead and copy the file into your \lstinline{assets} directory:
 
     \begin{lstlisting}[language=Bash,basicstyle=\scriptsize]
-$ cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
+# cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
 \end{lstlisting}
 \end{frame}
 
-% The WebAssembly.instantiateStreaming() function compiles and instantiates a WebAssembly module directly from a 
-% streamed underlying source. This is the most efficient, optimized way to load wasm code.
-\begin{frame}[fragile]{Demo - index.html}
-    \begin{lstlisting}[language=html,basicstyle=\scriptsize]
-<html>
-    <head>
-        <meta charset="utf-8"/>
-        <script src="wasm_exec.js"></script>
-        <script>
-            const go = new Go();
-
-            WebAssembly.instantiateStreaming(
-                fetch("main.wasm"), go.importObject
-            )
-            .then((result) => {
-                go.run(result.instance);
-            })
-        </script>
-    </head>
-    <body></body>
-</html>
-\end{lstlisting}
+\begin{frame}{Demo - assets/index.html}
+    \begin{figure}
+        \includegraphics[scale=0.2]{./images/idx.png}
+        \caption{index.html}
+    \end{figure}
 \end{frame}
 
-\begin{frame}[fragile]{Demo - cmd/server/main.go}
-    \begin{lstlisting}[language=html,basicstyle=\scriptsize]
-package main
-
-import (
-	"fmt"
-	"net/http"
-)
-
-func main() {
-    err := http.ListenAndServe(
-        ":9090", 
-        http.FileServer(http.Dir("../../assets"))
-    )
-    if err != nil {
-	fmt.Println("Failed to start server", err)
-	return
-    }
-}
-
-    \end{lstlisting}
+\begin{frame}{Demo - cmd/server/main.go}
+    \begin{figure}
+        \includegraphics[scale=0.3]{./images/server.png}
+        \caption{main.go}
+    \end{figure}
 \end{frame}
-
-\subsection{Execution}
 
 % Show resulting wasm file and code in the browser
 % Show rust demo as well - cargo install wasm-pack, wasm-pack build --target web
 \begin{frame}[fragile]{Demo - Execution}
     Now you can run your server and inspect the outcome. Make sure you are in the \lstinline{server} directory, when executing this command:
     \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-$ go run main.go
+# go run main.go
 \end{lstlisting}
 
     Now you should be able to inspect the result in your browser:
     \begin{figure}
-        \includegraphics[scale=0.3]{./images/demo.png}
+        \includegraphics[scale=0.2]{./images/demo.png}
         \caption{\href{https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/}{Performance-Entwicklung im Web-Kontext}}
     \end{figure}
 \end{frame}
@@ -303,7 +248,7 @@ $ go run main.go
     Essentially same procedure. Just exchange the contents of the following files:
     \begin{figure}
         \includegraphics[scale=0.2]{./images/main.png}
-        \caption{main.go}
+        \caption{cmd/wasm/main.go}
     \end{figure}
 
 \end{frame}
@@ -311,7 +256,7 @@ $ go run main.go
 \begin{frame}{Demo - Exports}
     \begin{figure}
         \includegraphics[scale=0.2]{./images/index.png}
-        \caption{index.html}
+        \caption{assets/index.html}
     \end{figure}
 
 \end{frame}
@@ -321,24 +266,24 @@ $ go run main.go
 \begin{frame}{Demo - Imports}
     Essentially same procedure. This time, exchange the contents of the following files:
     \begin{figure}
-        \includegraphics[scale=0.2]{./images/maingo.png}
-        \caption{main.go}
+        \includegraphics[scale=0.2]{./images/importmain.png}
+        \caption{cmd/wasm/main.go}
     \end{figure}
 
 \end{frame}
 
 \begin{frame}{Demo - Imports}
     \begin{figure}
-        \includegraphics[scale=0.25]{./images/jsindex.png}
-        \caption{index.html}
+        \includegraphics[scale=0.2]{./images/importindex.png}
+        \caption{assets/index.html}
     \end{figure}
 
 \end{frame}
 
 \begin{frame}{Demo - Imports}
     \begin{figure}
-        \includegraphics[scale=0.4]{./images/libjs.png}
-        \caption{lib.js}
+        \includegraphics[scale=0.4]{./images/lib.png}
+        \caption{assets/lib.js}
     \end{figure}
 
 \end{frame}
@@ -348,7 +293,7 @@ $ go run main.go
         \item Linear Memory - Continuous buffer of unsigned bytes that can be read from and stored into by both Wasm and Javascript
         \item Dom Manipulation - The syscall/js package can also be used to interact with the DOM. WASM can not directly interact with the DOM! It has to call JS!
         \item E.g. Rust is using wasm-bindgen to achieve the same as Go with syscall/js, AssemblyScript provides those features out of the box...
-        \item WASM function only support ints and floats. To work with other data types, linear memory can be used
+        \item WASM functions only support ints and floats. To work with other data types, linear memory can be used
     \end{itemize}
 \end{frame}
 
@@ -387,7 +332,7 @@ $ go run main.go
 
 \begin{frame}{Efficient and fast - Fetching}
     \begin{figure}
-        \includegraphics[scale=0.2]{./images/file.jpg}
+        \includegraphics[scale=0.15]{./images/download.png}
         \caption{\href{https://icon-library.com/icon/download-icon-file-4.html}{Fetch}}
     \end{figure}
     \begin{itemize}
@@ -549,32 +494,32 @@ $ go run main.go
 \begin{frame}[fragile]{Demo - wasmtime}
     \textbf{Install Rust:}
     \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     \end{lstlisting}
 
     \textbf{Install wasmtime:}
     \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-$ curl https://wasmtime.dev/install.sh -sSf | bash
+# curl https://wasmtime.dev/install.sh -sSf | bash
     \end{lstlisting}
 
     \textbf{Add WebAssembly target to Rust:}
     \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-$ rustup target add wasm32-wasi
+# rustup target add wasm32-wasi
     \end{lstlisting}
 
     \textbf{Compile to WebAssembly:}
     \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-$ rustc main.rs --target wasm32-wasi
+# rustc main.rs --target wasm32-wasi
     \end{lstlisting}
 
     \textbf{Execute:}
     \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-$ wasmtime main.wasm
+# wasmtime main.wasm
 Hello World!
     \end{lstlisting}
 \end{frame}
 
-\subsection{WebAssembly System Interface - WASI}
+\subsection{WebAssembly System Interface}
 
 \begin{frame}{WebAssembly Sytem Interface - WASI}
     \begin{quotation}
@@ -618,7 +563,7 @@ Hello World!
     \end{figure}
 \end{frame}
 
-\subsection{WebAssembly Gateway Interface - WAGI}
+\subsection{WebAssembly Gateway Interface}
 % WAGI - Read infoq article
 \begin{frame}{WebAssembly Gateway Interface - WAGI}
     \begin{itemize}
