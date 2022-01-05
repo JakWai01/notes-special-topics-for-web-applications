@@ -178,6 +178,16 @@
 
 \end{frame}
 
+\subsection{Supported Languages}
+
+\begin{frame}{Supported Languages}
+    \begin{figure}
+        \includegraphics[scale=0.3]{./images/langs.png}
+        \caption{Production Ready Languages}
+    \end{figure}
+\end{frame}
+
+
 \subsection{Hello World}
 
 \begin{frame}{Demo - File structure}
@@ -328,18 +338,6 @@
     \end{figure}
 \end{frame}
 
-\subsection{Fetching} 
-
-\begin{frame}{Efficient and fast - Fetching}
-    \begin{figure}
-        \includegraphics[scale=0.15]{./images/download.png}
-        \caption{\href{https://icon-library.com/icon/download-icon-file-4.html}{Fetch}}
-    \end{figure}
-    \begin{itemize}
-        \item Fetching (not on diagram): Fetching file from server. WASM more compact as it's designed that way. WASM is even smaller than a gzipped JavaScript file
-    \end{itemize}
-\end{frame}
-
 \subsection{Parsing}
 
 \begin{frame}{Efficient and fast - Parsing}
@@ -378,7 +376,7 @@
     \end{figure}
     \begin{itemize}
         \item JIT assumptions about the code may be incorrect and a rollback is needed
-        \item Deoptimization happens when variables in a loop are different than they were in previous iterations
+        \item Reoptimization happens when variables in a loop are different than they were in previous iterations
         \item WebAssembly does not need reoptimization since types are explicit an no assumptions about them are necessary during runtime
     \end{itemize}
 \end{frame}
@@ -387,14 +385,21 @@
 
 \begin{frame}{Effecient and fast - Execution}
     \begin{figure}
-        \includegraphics[scale=0.2]{./images/execution.png}
+        \includegraphics[scale=0.1]{./images/execution.png}
         \caption{\href{https://www.smashingmagazine.com/2017/05/abridged-cartoon-introduction-webassembly/}{Execution}}
     \end{figure}
     \begin{itemize}
         \item Most developers don't know about JIT internals, so writing performant JS code is hard
         \item WASM is designed to be a compiler target, not a human readable language. Instruction set is optimized for machines
-        \item Speedup up to 800\%
-        \item WebAssembly executes at "native speed"
+        \item Near native speed (60-70\% in a C++ analysis). Causes for decreased speed:
+        \begin{itemize}
+            \item Poor register allocation
+            \item Reserved registers
+            \item Poor instruction selection
+            \item Stack overflow checks
+            \item Indirect function call checks
+        \end{itemize}
+        \item Most of the time, still a speedup up to 800\% compared to JavaScript
     \end{itemize}
 \end{frame}
 
