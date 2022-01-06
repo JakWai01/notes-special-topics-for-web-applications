@@ -1,6 +1,7 @@
 \documentclass{beamer}
 \usepackage{graphicx}
 \usepackage{listings}
+\usepackage{hyperref}
 \usepackage{multicol}
 % \usetheme{metropolis}
 \usetheme{Rochester}
@@ -61,7 +62,9 @@
 
 \begin{frame}{Binary Instruction Format}
     \begin{itemize}
-        \item Machine instruction format consisting of \textbf{1s and 0s} that can be directly decoded and \textbf{executed by the CPU}
+        \item Machine instruction format that can be directly decoded and \textbf{executed by a CPU}
+        \item \textbf{Machine code} or \textbf{bytecode} for a virtual machine 
+        \item \textbf{WASM uses bytecode}
         \item \textbf{Targeting different instruction set architectures} (ISA) like \textbf{x86}, \textbf{ARM} or \textbf{RISC-V}
         \item WASM uses \textbf{virtual instructions} for a \textbf{conceptual machine}, not a physical one
         \item Think of WASM instruction set as \textbf{intersection of multiple ISAs} that can't be mapped directly to one ISA
@@ -457,16 +460,16 @@ cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
 
 \begin{frame}{Security}
     \begin{itemize}
-    \item Sandboxing
-    \item Same-Origin-Policy
-    \item Permissions are required to access hardware of filesystem
-    \item Can't access DOM 
-    \item Dedicated memory space
-    \item Prohibit unwanted memory access
-    \item Protect execution stack
-    \item Tables 
-    \item Removing unsafe features while being compatible with C/C++
-    \item Traps
+    \item \textbf{Sandboxing}
+    \item \textbf{Same-Origin-Policy}
+    \item \textbf{Permissions} are required to access hardware of filesystem
+    \item Can't access \textbf{DOM}
+    \item \textbf{Dedicated memory space}
+    \item \textbf{Prohibit unwanted memory access}
+    \item \textbf{Protect execution stack}
+    \item \textbf{Tables}
+    \item \textbf{Removing unsafe features} while being compatible with C/C++
+    \item \textbf{Traps}
     \end{itemize}
 \end{frame}
 
@@ -520,7 +523,7 @@ wasmtime main.wasm
 
 \begin{frame}{WebAssembly Sytem Interface - WASI}
     \begin{quotation}
-        "Developers are starting to push WebAssembly beyond the browser [...]. Code outside of a browser needs a way to talk to the system [...]. And the WebAssembly platform doesn’t have that yet." - Lin Clark
+        "Developers are starting to \textbf{push WebAssembly beyond the browser} [...]. Code outside of a browser needs a way to \textbf{talk to the system} [...]. And the WebAssembly platform doesn’t have that yet." - Lin Clark
     \end{quotation}
 \end{frame}
 
@@ -601,8 +604,41 @@ wasmtime main.wasm
 % Frontend in go. Can't access DOM directly and they have to be accessed through JS. 
 % Backend could be realized pretty easily. API endpoints using e.g. krustlet and WAGI or just JS calling WASM. 
 % Database can be used using JS or directly with WASM - sql-js compiled sqlite with emscripten to WASM
+    
 \begin{frame}{Webshop}
-
 \end{frame}
 
+\begin{frame}[fragile]{Sources}
+    \begin{lstlisting}[language=Lisp,basicstyle=\tiny]
+    https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format
+    https://webassembly.org/docs/portability/
+    https://webassembly.org/docs/use-cases/
+    https://radu-matei.com/blog/practical-guide-to-wasm-memory/
+    https://www.smashingmagazine.com/2017/05/abridged-cartoon-introduction-webassembly/
+    https://hacks.mozilla.org/2017/02/what-makes-webassembly-fast/
+    https://hacks.mozilla.org/2017/02/creating-and-working-with-webassembly-modules/
+    https://github.com/golang/go/wiki/WebAssembly#getting-started
+    https://golangbot.com/webassembly-using-go/
+    https://madewithwebassembly.com/about/
+    https://medium.com/@atilafassina/es2015-modules-101-d9977dc4d4c7
+    https://developer.mozilla.org/en-US/docs/WebAssembly
+    https://golangbot.com/go-webassembly-dom-access/
+    https://wasmbyexample.dev/examples/exports/exports.go.en-us.html
+    https://github.com/WebAssembly/design/issues/219
+    https://hacks.mozilla.org/2018/10/calls-between-javascript-and-webassembly-are
+    -finally-fast-\%f0\%9f\%8e\%89/
+    https://www.infoq.com/podcasts/web-assembly-component-model/
+    https://hacks.mozilla.org/2019/03/standardizing-wasi-a-
+    webassembly-system-interface/
+    https://webassembly.org/docs/web/
+    https://webassembly.org/docs/security/
+    https://www.virusbulletin.com/virusbulletin/2018/10/dark-side-webassembly/
+    https://www.infoworld.com/article/3632865/understanding-wagi-the-
+    webassembly-gateway-interface.html
+    https://radu-matei.com/blog/intro-wasm-components/
+    https://www.usenix.org/conference/atc19/presentation/jangda
+    https://entwickler.de/security/webassembly-ist-das-sicher-oder-kann-das-weg/
+    https://www.toomanybees.com/storytime/gluing-the-web-and-webassembly-together
+    \end{lstlisting}
+\end{frame}
 \end{document}
