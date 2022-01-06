@@ -24,7 +24,7 @@
     \end{multicols}
 \end{frame}
 
-\section{Introduction}
+\section{Motivation}
 
 \begin{frame}{Motivation}
     \begin{figure}
@@ -62,9 +62,9 @@
 \begin{frame}{Binary Instruction Format}
     \begin{itemize}
         \item Machine instruction format consisting of \textbf{1s and 0s} that can be directly decoded and \textbf{executed by the CPU}
-        \item \textbf{Targeting different instruction set architectures} (ISA) like x86, ARM or RISC-V
+        \item \textbf{Targeting different instruction set architectures} (ISA) like \textbf{x86}, \textbf{ARM} or \textbf{RISC-V}
         \item WASM uses \textbf{virtual instructions} for a \textbf{conceptual machine}, not a physical one
-        \item Think of WASM instruction set as "intersection" of multiple ISAs that can't be mapped directly to one ISA
+        \item Think of WASM instruction set as \textbf{intersection of multiple ISAs} that can't be mapped directly to one ISA
     \end{itemize}
 \end{frame}
 
@@ -72,10 +72,9 @@
 
 \begin{frame}{Stack-Based Virtual Machine}
     \begin{itemize}
-        \item Virtual machine which uses stacks to perform oprations
-        \item Famous stack-based VMs are the JVM (Java Virtual Machine) and the CLR (Common Language Runtime)
-        \item E.g. to add two numbers in a stack-based VM, the program will push the first number to the stack, push the second and then execute some form of the special instruction add, that will pop the first two elements of the stack and replace them with their sum
-        \item When the browser translates WASM to the machine code for the machine the browser is running on, it will use registers. Since the WASM specification does not specify registers, it gives the browser more flexibility to use the best register allocation for  that machine
+        \item Virtual machine which \textbf{uses stack} data structure \textbf{to perform operations}
+        \item Famous stack-based VMs are the \textbf{JVM} (Java Virtual Machine) and the \textbf{CLR} (Common Language Runtime)
+        \item When the \textbf{browser} translates WASM to the machine code for the machine the browser is running on, it \textbf{will use registers}. Since the WASM specification does \textbf{not} specify registers, it gives the browser more \textbf{flexibility} to use the \textbf{best register allocation} for  that machine
     \end{itemize}
 \end{frame}
 
@@ -104,9 +103,8 @@
                   \item A \textbf{VM/Engine} that runs the code, e.g. V8 or SpiderMonkey
                   \item A set of \textbf{Web APIs} that can be called to control browser/device functionality (DOM, WebGL, Web Audio API etc.)
               \end{itemize}
-        \item In the past, only JS could be executed in the browser as it was good enough. Today some performance problems occur as we have to run intensive programs like 3D games, VR and AR etc.
         \item The VM can now load an run two types of code: \textbf{JavaScript and WebAssembly}
-        \item The different code types \textbf{can call each other}. The WebAssembly JavaScript API wraps exported JavaScript code with JavaScript functions that can be called normally and WebAssembly code can import and synchronously call normal JavaScript functions.
+        \item The different code types \textbf{can call each other}
     \end{itemize}
 \end{frame}
 
@@ -119,63 +117,68 @@
 \subsection{Use Cases}
 
 \begin{frame}{Use Cases}
-    Considered by the W3C as now more feasable inside the browser:
+    \textbf{Inside of the Browser:}
     \begin{itemize}
         \item Better execution for languages and toolkits that are currently cross-compiled to the Web
-        \item VR and AR
-        \item Platform simulation / emulation (DOSBox, QEMU, …)
-        \item Remote desktop
-        \item Games
-        \item Cloud IDEs
+        \item \textbf{VR} and \textbf{AR}
+        \item Platform \textbf{simulation}/\textbf{emulation} (DOSBox, QEMU, …)
+        \item \textbf{Remote desktop}
+        \item \textbf{Games}
+        \item \textbf{Cloud IDEs}
         \item \href{https://webassembly.org/docs/use-cases/}{...}
     \end{itemize}
-    Outside the browser:
+    \textbf{Outside of the browser:}
     \begin{itemize}
-        \item Server-side applications
-        \item Game distribution services
-        \item Parallel computation across multiple nodes
+        \item \textbf{Server-side applications}
+        \item Game \textbf{distribution} services
     \end{itemize}
 \end{frame}
 
-\begin{frame}
-    Projects using WebAssembly right now:
+\begin{frame}{Projects using WebAssembly}
     \begin{itemize}
-        \item Blazor
-        \item Autocad
-        \item Figma
-        \item Jitsi for virtual backgrounds
-        \item Zoom for video encoding
-        \item \href{https://wasm.continuation-labs.com/d3demo/}{D3wasm}
-        \item go-app
+        \item \textbf{Blazor}
+        \item \textbf{AutoCAD}
+        \item \textbf{Figma}
+        \item \textbf{Jitsi} for virtual backgrounds
+        \item \textbf{Zoom} for video encoding
+        \item \textbf{\href{https://wasm.continuation-labs.com/d3demo/}{D3wasm}}
+        \item \textbf{go-app}
         \item ...
     \end{itemize}
 \end{frame}
 
 \subsection{WebAssembly Text}
-% Talk about S-expressions, import, exports, types, globals and shared memory and talk about why it might be not that relevant for the "normal" webdev
 \begin{frame}[fragile]{WebAssembly Text}
     \begin{itemize}
-        \item Textual representation of the binary format to allow reading and editing by humans
-        \item Designed to be exposed in text editors, browser developer tools, etc.
-        \item .wat files can be compiled to .wasm using the WebAssembly Binary Toolkit (WABT)
-        \item For more information, consider visiting the \href{https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format}{MDN Web Docs}
+        \item \textbf{Textual representation} of the binary format to allow reading and editing by humans
+        \item Designed to be \textbf{exposed} in \textbf{text editors}, \textbf{browser developer tools}, etc.
+        \item Files can be compiled to using the \textbf{WebAssembly Binary Toolkit} (WABT)
+        \item For more information, consider visiting the \textbf{\href{https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format}{MDN Web Docs}}
     \end{itemize}
+\end{frame}
+
+\begin{frame}{WebAssembly Text - Example}
     \begin{figure}
         \includegraphics[scale=0.3]{./images/wat.png}
-        \caption{WebAssembly Text}
+        \caption{WebAssembly Module with a simple add function}
+    \end{figure}
+    \begin{figure}
+        \includegraphics[scale=0.3]{./images/watjs.png}
+        \caption{Calling the function}
     \end{figure}
 \end{frame}
 
 \section{Demo}
 
 \begin{frame}{Demo - Prerequisites}
-    Disclaimer: This Demo is using the \href{https://go.dev/}{Go} programming language. You don't need any knowledge about Go to follow this Demo. Furthermore, I am using Linux! I can't guarantee, nor do I care, that it works on your Windows machine.
-
-    Installing Go:
+    \textbf{Disclaimer}
+    \begin{itemize}
+        \item This demo is using the \textbf{\href{https://go.dev/}{Go}} programming language. You don't need any knowledge about Go to follow this demo. Furthermore, I am using \textbf{Linux}! I can't guarantee, nor do I care, that it works on your Windows machine.
+    \end{itemize}
+    \textbf{Installing Go}
     \begin{itemize}
         \item Please follow \underline{\href{https://go.dev/doc/install}{this}} tutorial
     \end{itemize}
-
 \end{frame}
 
 \subsection{Supported Languages}
@@ -206,21 +209,24 @@
 \end{frame}
 
 \begin{frame}[fragile]{Demo - Compilation}
-    To compile your main.go to a WebAssembly main.wasm file, execute the following command in the wasm directory:
-
+    \begin{itemize}
+    \item To compile your main.go to a WebAssembly main.wasm file, \textbf{execute} the following command in the wasm directory:
     \begin{lstlisting}[language=Bash,basicstyle=\scriptsize]
-# GOOS=js GOARCH=wasm go build -o  ../../assets/main.wasm
+GOOS=js GOARCH=wasm go build -o  ../../assets/main.wasm
     \end{lstlisting}
-
-    You should now be able to locate a \lstinline{main.wasm} file inside your \lstinline{assets} folder.
+    
+    \item You should now be able to locate a \lstinline{main.wasm} file inside your \lstinline{assets} folder.
+\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Demo - JavaScript Glue Code}
-    Some JavaScript code is needed to import the WebAssembly Module we just created in the Browser. Fortunately, this code comes with every Go installation. So just go ahead and copy the file into your \lstinline{assets} directory:
+    \begin{itemize}
+    \item Some JavaScript code is needed to import the WebAssembly Module we just created in the Browser. Fortunately, this code comes with every Go installation. So just go ahead and copy the file into your \lstinline{assets} directory:
 
     \begin{lstlisting}[language=Bash,basicstyle=\scriptsize]
-# cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
+cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
 \end{lstlisting}
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Demo - assets/index.html}
@@ -240,27 +246,27 @@
 % Show resulting wasm file and code in the browser
 % Show rust demo as well - cargo install wasm-pack, wasm-pack build --target web
 \begin{frame}[fragile]{Demo - Execution}
-    Now you can run your server and inspect the outcome. Make sure you are in the \lstinline{server} directory, when executing this command:
+    \begin{itemize}
+    \item  Now you can run your server and inspect the outcome. Make sure you are in the \lstinline{server} directory, when executing this command:
     \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-# go run main.go
+ go run main.go
 \end{lstlisting}
 
-    Now you should be able to inspect the result in your browser:
+    \item Now you should be able to inspect the result in your browser:
     \begin{figure}
         \includegraphics[scale=0.2]{./images/demo.png}
         \caption{\href{https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/}{Performance-Entwicklung im Web-Kontext}}
     \end{figure}
+    \end{itemize}
 \end{frame}
 
 \subsection{Exports}
 
 \begin{frame}{Demo - Exports}
-    Essentially same procedure. Just exchange the contents of the following files:
     \begin{figure}
         \includegraphics[scale=0.2]{./images/main.png}
         \caption{cmd/wasm/main.go}
     \end{figure}
-
 \end{frame}
 
 \begin{frame}{Demo - Exports}
@@ -274,12 +280,17 @@
 \subsection{Imports}
 
 \begin{frame}{Demo - Imports}
-    Essentially same procedure. This time, exchange the contents of the following files:
-    \begin{figure}
+\begin{figure}
+        \includegraphics[scale=0.4]{./images/lib.png}
+        \caption{assets/lib.js}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Demo - Imports}
+ \begin{figure}
         \includegraphics[scale=0.2]{./images/importmain.png}
         \caption{cmd/wasm/main.go}
     \end{figure}
-
 \end{frame}
 
 \begin{frame}{Demo - Imports}
@@ -287,27 +298,18 @@
         \includegraphics[scale=0.2]{./images/importindex.png}
         \caption{assets/index.html}
     \end{figure}
-
-\end{frame}
-
-\begin{frame}{Demo - Imports}
-    \begin{figure}
-        \includegraphics[scale=0.4]{./images/lib.png}
-        \caption{assets/lib.js}
-    \end{figure}
-
 \end{frame}
 
 \begin{frame}{Additional Information}
     \begin{itemize}
-        \item Linear Memory - Continuous buffer of unsigned bytes that can be read from and stored into by both Wasm and Javascript
-        \item Dom Manipulation - The syscall/js package can also be used to interact with the DOM. WASM can not directly interact with the DOM! It has to call JS!
-        \item E.g. Rust is using wasm-bindgen to achieve the same as Go with syscall/js, AssemblyScript provides those features out of the box...
-        \item WASM functions only support ints and floats. To work with other data types, linear memory can be used
+        \item \textbf{Linear Memory} - Continuous buffer of unsigned bytes that can be read from and stored into by both Wasm and Javascript
+        \item \textbf{DOM Manipulation} - The \textbf{syscall/js} package can also be used to interact with the DOM. WASM \textbf{cannot} directly interact with the DOM! It has to call JS!
+        \item \textbf{Rust} is using \textbf{wasm-bindgen} to achieve the same as Go with syscall/js
+        \item \textbf{AssemblyScript} provides those features out of the box...
+        \item WebAssembly functions only support \textbf{integers} and \textbf{floating point numbers}. To work with other data types, linear memory can be used
     \end{itemize}
 \end{frame}
 
-% Add terminlogy but don't talk about it in the presentation. It should be clear after the Demo
 \begin{frame}{Terminology}
     \begin{itemize}
         \item \textbf{Module}: WebAssembly Binary that has beed compiled into executable machine code. A Module is stateless and thus, like a Blob, can be explicitly shared between windows and workers. Module declares imports just like an ES2015 module.
@@ -326,7 +328,8 @@
     \end{figure}
 \end{frame}
 
-% Comparison between JS and WASM. Also talk about asm.js
+\subsection{Efficient and Fast}
+
 \begin{frame}{Efficient and fast}
     \begin{figure}
         \includegraphics[scale=0.3]{./images/javascriptgraph.png}
@@ -338,19 +341,18 @@
     \end{figure}
 \end{frame}
 
-\subsection{Parsing}
-
 \begin{frame}{Efficient and fast - Parsing}
     \begin{figure}
         \includegraphics[scale=0.2]{./images/pasedecode.png}
         \caption{\href{https://www.smashingmagazine.com/2017/05/abridged-cartoon-introduction-webassembly/}{Parse}}
     \end{figure}
     \begin{itemize}
-        \item Javascript gets parsed to AST (lazy). From there the JS code is parsed to intermediate representation (byte code). WASM does not need this step because we already get bytecode. WASM bytecode just needs to be decoded and validated
+        \item Javascript gets parsed to \textbf{Abstract Syntax Tree} (AST)
+        \item JavaScript code is then parsed to \textbf{intermediate representation} (byte code) 
+        \item WASM does not need this step because we \textbf{already} start with \textbf{bytecode}
+        \item WASM bytecode just needs to be \textbf{decoded and validated}
     \end{itemize}
 \end{frame}
-
-\subsection{Compilation + Optimization}
 
 \begin{frame}{Efficient and fast - Compilation + Optimization}
     \begin{figure}
@@ -358,16 +360,17 @@
         \caption{\href{https://www.smashingmagazine.com/2017/05/abridged-cartoon-introduction-webassembly/}{Compilation}}
     \end{figure}
     \begin{itemize}
-        \item JS is compiled during the execution of the code. Because types are dynamic, multiple versions of the same code may need to be compiled.
+        \item JavaScript is \textbf{compiled during the execution} of the code
+        \begin{itemize}
+            \item Because types are \textbf{dynamic}, multiple versions of the same code may need to be compiled.
+        \end{itemize}
         \item WebAssembly saves time with regards to:
               \begin{itemize}
-                  \item Don't need to figure out used types
-                  \item Ahead of time optimizations in e.g. LLVM
+                  \item Not needing to figure out \textbf{types}
+                  \item Ahead of time \textbf{optimizations}
               \end{itemize}
     \end{itemize}
 \end{frame}
-
-\subsection{Reoptimization}
 
 \begin{frame}{Efficient and fast - Reoptimizaion}
     \begin{figure}
@@ -375,13 +378,13 @@
         \caption{\href{https://www.smashingmagazine.com/2017/05/abridged-cartoon-introduction-webassembly/}{Reoptimization}}
     \end{figure}
     \begin{itemize}
-        \item JIT assumptions about the code may be incorrect and a rollback is needed
-        \item Reoptimization happens when variables in a loop are different than they were in previous iterations
-        \item WebAssembly does not need reoptimization since types are explicit an no assumptions about them are necessary during runtime
+        \item JIT \textbf{assumptions} about the code \textbf{may be incorrect} and a \textbf{rollback} is needed
+        \begin{itemize}
+            \item Reoptimization happens when e.g. variables in a loop are different than they were in previous iterations
+        \end{itemize}
+        \item WebAssembly does \textbf{not} need reoptimization since \textbf{types are explicit} an no assumptions about them are necessary during runtime
     \end{itemize}
 \end{frame}
-
-\subsection{Execution}
 
 \begin{frame}{Effecient and fast - Execution}
     \begin{figure}
@@ -389,9 +392,10 @@
         \caption{\href{https://www.smashingmagazine.com/2017/05/abridged-cartoon-introduction-webassembly/}{Execution}}
     \end{figure}
     \begin{itemize}
-        \item Most developers don't know about JIT internals, so writing performant JS code is hard
-        \item WASM is designed to be a compiler target, not a human readable language. Instruction set is optimized for machines
-        \item Near native speed (60-70\% in a C++ analysis). Causes for decreased speed:
+        \item Most developers don't know about \textbf{JIT internals}, so writing performant JS code is hard
+        \item WASM is \textbf{designed} to be a \textbf{compiler target}, not a human readable language. Instruction set is \textbf{optimized for machines}
+        \item \textbf{Near native speed} (60-70\% in a C++ analysis). 
+        \item \textbf{Causes} for decreased speed compared to native execution:
         \begin{itemize}
             \item Poor register allocation
             \item Reserved registers
@@ -399,11 +403,9 @@
             \item Stack overflow checks
             \item Indirect function call checks
         \end{itemize}
-        \item Most of the time, still a speedup up to 800\% compared to JavaScript
+        \item \textbf{Still up to 800\% faster than JavaScript}
     \end{itemize}
 \end{frame}
-
-\subsection{Garbage Collection}
 
 \begin{frame}{Effecient and fast - Garbage Collection}
     \begin{figure}
@@ -411,9 +413,9 @@
         \caption{\href{https://www.smashingmagazine.com/2017/05/abridged-cartoon-introduction-webassembly/}{Garbage Collection}}
     \end{figure}
     \begin{itemize}
-        \item JavaScript uses garbage collector to clear unused variables from memory
-        \item Not knowing when a garbage collector works can lead to unpredictable performance
-        \item So far, WebAssembly does not support garbage collection
+        \item JavaScript uses \textbf{garbage collector} to \textbf{clear unused variables} from memory
+        \item Not knowing when a garbage collector works can lead to \textbf{unpredictable performance}
+        \item So far, \textbf{WebAssembly} does \textbf{not support} garbage collection, but plans to do so
     \end{itemize}
 \end{frame}
 
@@ -432,51 +434,39 @@
 % \item Can't directly talk to the OS. Instead create a sandbox, we lock the program in and expose some functions to it with just the allowed functionality
 % \item Isn't automatically secure, since the host still can grant full permissions which would be no better than the first time
 
-\section{Security}
+% \section{Security}
 
-\begin{frame}{Security}
-    \begin{figure}
-        \includegraphics[scale=0.07]{./images/sandbox.png}
-        \caption{\href{https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/}{Sandboxing}}
-    \end{figure}
-\end{frame}
+% \begin{frame}{Security}
+%     \begin{figure}
+%         \includegraphics[scale=0.07]{./images/sandbox.png}
+%         \caption{\href{https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/}{Sandboxing}}
+%     \end{figure}
+% \end{frame}
 
 % \item In normal OS, if code needs to open file, it calls the open function containing a string with the path to the file. This succeeds if the user has necessary permissions. 
 % \item Instead if you call a function interacting with the files in WASI, you have to pass a file descriptor, which has permissions attached to it. This way you can't randomly open a file. Instead the code can only operate in the directory it was given.
 % \item So the runtime passes in the file descriptors that an app can use at the top level code. The code itself can then propagate those file descriptors through the rest of the modules needed (Insert cude picture here)
-\begin{frame}{Security}
-    \begin{figure}
-        \includegraphics[scale=0.06]{./images/file.png}
-        \caption{\href{https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/}{File Descriptor}}
-    \end{figure}
-\end{frame}
+% \begin{frame}{Security}
+%     \begin{figure}
+%         \includegraphics[scale=0.06]{./images/file.png}
+%         \caption{\href{https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/}{File Descriptor}}
+%     \end{figure}
+% \end{frame}
+
+\subsection{Security}
 
 \begin{frame}{Security}
     \begin{itemize}
-        \item Sandboxing as a more modern way to handle access rights
-        \item Force same-origin and permission security of the browser
-        \item Control-Flow-Integrity
-        \item Eliminate dangerous features while maintaining compatibility with C/C++
-              \begin{itemize}
-                  \item Function calls must specify index of target to a valid entry in the function index space or table index space
-                  \item Indirect function calls are subject to a type signature check at runtime
-                  \item Protected call stack that is invulnerable to buffer overflows
-                  \item Branches must point to valid destinations within the enclosing function
-              \end{itemize}
-        \item Memory Safety
-            \begin{itemize}
-                \item Variables are stored in index space, are fixed-size and addressed by index. CFI and protected call stacks prevent direct code injection attacks
-                \item Unsafe pointer semantic removed. References to invalid indexes in any index space cause validation error
-            \end{itemize}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Security - Attack Surface}
-    \begin{itemize}
-        \item Hijack the control flow of a module using code reuse attacks against indirect calls
-        \item Race conditions - time of check to time of use vulnerabilities
-        \item Side Channel Attacks like \href{https://github.com/tc39/ecmascript_sharedmem/blob/master/issues/TimingAttack.md}{timing attacks} against modules
-        \item Probably some more...
+    \item Sandboxing
+    \item Same-Origin-Policy
+    \item Permissions are required to access hardware of filesystem
+    \item Can't access DOM 
+    \item Dedicated memory space
+    \item Prohibit unwanted memory access
+    \item Protect execution stack
+    \item Tables 
+    \item Removing unsafe features while being compatible with C/C++
+    \item Traps
     \end{itemize}
 \end{frame}
 
@@ -488,40 +478,42 @@
 
 \begin{frame}{WebAssembly Runtimes}
     \begin{itemize}
-        \item Goal: Run WebAssembly outside of the browser
-        \item Wasmer - lightweight containers that run everywhere
-        \item Wasmtime - standalone JIT style runtime based on cranelift
-        \item WebAssembly Micro Runtime (WAMR)
+        \item \textbf{Run WebAssembly outside of the browser}
+        \item \textbf{Wasmer} - lightweight containers that run everywhere
+        \item \textbf{Wasmtime} - standalone JIT style runtime based on cranelift
+        \item \textbf{WebAssembly Micro Runtime} (WAMR)
     \end{itemize}
 \end{frame}
 
 % Show wasmer demo as well
 \begin{frame}[fragile]{Demo - wasmtime}
+\begin{itemize}
+    \item
     \textbf{Install Rust:}
     \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-# curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+curl https://sh.rustup.rs -sSf | sh
     \end{lstlisting}
-
+    \item
     \textbf{Install wasmtime:}
     \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-# curl https://wasmtime.dev/install.sh -sSf | bash
+curl https://wasmtime.dev/install.sh -sSf | bash
     \end{lstlisting}
-
+    \item
     \textbf{Add WebAssembly target to Rust:}
     \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-# rustup target add wasm32-wasi
+rustup target add wasm32-wasi
     \end{lstlisting}
-
+    \item
     \textbf{Compile to WebAssembly:}
     \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-# rustc main.rs --target wasm32-wasi
+rustc main.rs --target wasm32-wasi
     \end{lstlisting}
-
+    \item
     \textbf{Execute:}
     \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-# wasmtime main.wasm
-Hello World!
+wasmtime main.wasm
     \end{lstlisting}
+\end{itemize}
 \end{frame}
 
 \subsection{WebAssembly System Interface}
@@ -532,15 +524,14 @@ Hello World!
     \end{quotation}
 \end{frame}
 
-% WASI - read Article
 % Use preopened directories as root (based on libpreopen)
 \begin{frame}{WebAssembly System Interface - WASI}
 \begin{itemize} 
-    \item Interact with system using syscalls
-    \item Normally, the standard library of a programming language provides said system interface which is os-dependent
-    \item E.g. \lstinline{prinft} being compiled for a Windows machine could use the Windows API to interact with the machine. If it's being compiled for Mac or Linux, POSIX will be used
-    \item With WASM you don't know which operating system you're targeting even when you're compiling. So you can't use any single OS system interface 
-    \item Portability and Security with Sandboxing
+    \item \textbf{Interact with system} using syscalls
+    \item Normally, the \textbf{standard library} of a programming language \textbf{provides} said \textbf{system interface} which is os-dependent
+    \item E.g. \lstinline{prinft} being compiled for a Windows machine could use the \textbf{Windows API} to interact with the machine. If it's being compiled for Mac or Linux, \textbf{POSIX} will be used
+    \item With WASM you \textbf{don't know which operating system} you're targeting even when you're compiling. So you can't use any single OS system interface 
+    \item Portability and Security with \textbf{Sandboxing}
 \end{itemize}
 \end{frame}
 
@@ -551,39 +542,52 @@ Hello World!
 % \item We are pulling in so much third party code that whe need to control over what it can do $rightarrow$ Sandboxing
 % \item Can't directly talk to the OS. Instead create a sandbox, we lock the program in and expose some functions to it with just the allowed functionality
 % \item Isn't automatically secure, since the host still can grant full permissions which would be no better than the first time
-\begin{frame}{WebAssembly System Interface - WASI}
-    \begin{figure}
-        \includegraphics[scale=0.07]{./images/sandbox.png}
-        \caption{\href{https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/}{Sandboxing}}
-    \end{figure}
-\end{frame}
+% \begin{frame}{WebAssembly System Interface - WASI}
+%     \begin{figure}
+%         \includegraphics[scale=0.07]{./images/sandbox.png}
+%         \caption{\href{https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/}{Sandboxing}}
+%     \end{figure}
+% \end{frame}
 
 % \item In normal OS, if code needs to open file, it calls the open function containing a string with the path to the file. This succeeds if the user has necessary permissions. 
 % \item Instead if you call a function interacting with the files in WASI, you have to pass a file descriptor, which has permissions attached to it. This way you can't randomly open a file. Instead the code can only operate in the directory it was given.
 % \item So the runtime passes in the file descriptors that an app can use at the top level code. The code itself can then propagate those file descriptors through the rest of the modules needed (Insert cude picture here)
-\begin{frame}{WebAssembly System Interface - WASI}
-    \begin{figure}
-        \includegraphics[scale=0.06]{./images/file.png}
-        \caption{\href{https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/}{File Descriptor}}
-    \end{figure}
-\end{frame}
+% \begin{frame}{WebAssembly System Interface - WASI}
+%     \begin{figure}
+%         \includegraphics[scale=0.06]{./images/file.png}
+%         \caption{\href{https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/}{File Descriptor}}
+%     \end{figure}
+% \end{frame}
 
 \subsection{WebAssembly Gateway Interface}
 % WAGI - Read infoq article
 \begin{frame}{WebAssembly Gateway Interface - WAGI}
     \begin{itemize}
-        \item HTTP handlers using STDIN and STDOUT and environment variables
-        \item Write microservices and web apps
-        \item Problem this tries to solve: A wasm binary is no server. It is not actively listening. It doesn't even need to run all the time. So how do we get HTTP requests?
-        \item When HTTP request is received the WASM binary gets executed with the necessary Information contained in STDIN and environment variables. Replies are sent to STDOUT and binary can terminate again.
-        \item WAGI-Server can be used
+        \item \textbf{HTTP handlers} using \textbf{STDIN} and \textbf{STDOUT} and \textbf{environment variables}
+        \item Write \textbf{microservices} and \textbf{web apps}
+        \item When HTTP \textbf{request} is received the WASM binary gets executed with the necessary Information contained in STDIN and environment variables
+        \item \textbf{Responses} are sent to STDOUT and binary can terminate again.
+        \item \textbf{WAGI-Server} can be used
     \end{itemize}
 \end{frame}
 
 \section{Conclusion}
 
 \begin{frame}{Conclusion}
-WASM does't have direct access to the DOM, so for all DOM interaction it has to go through JS with a bunch of glue code between. Which means for most normal websites plain JS will be faster than JS + glue code + WASM. If you have some functionality that could really benefit from performance and doesn't just lose it all thorugh foreign function interfaces (FFI) and DOM interaction, then WASM can be really benefitial.
+\begin{itemize}
+    \item No direct DOM access 
+    \begin{itemize} 
+        \item Plain JavaScript faster for normal websites 
+        \item JS + glue code + WASM just not enough benefits in that usecase 
+    \end{itemize}
+    \item \textbf{Right tool for the right job}
+    \item \textbf{Portability} and interoperability
+    \item \textbf{Here to stay}
+    \begin{itemize}
+        \item \textbf{Krustlet} - Running WASM Modules instead of container images on K8s clusters
+    \end{itemize}
+    \item Backed by the \textbf{Bytecode Allegiance} (ARM, Google, Intel, Microsoft, Mozilla...)
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Conclusion}
@@ -593,6 +597,7 @@ WASM does't have direct access to the DOM, so for all DOM interaction it has to 
     \end{figure}
 \end{frame}
 
+\section{Webshop}
 % Frontend in go. Can't access DOM directly and they have to be accessed through JS. 
 % Backend could be realized pretty easily. API endpoints using e.g. krustlet and WAGI or just JS calling WASM. 
 % Database can be used using JS or directly with WASM - sql-js compiled sqlite with emscripten to WASM

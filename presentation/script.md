@@ -252,11 +252,36 @@
 
 ## Security 
 
---- WORK ON THIS STEP AGAIN ---
+- Bytecode, der in einer Sandbox ausgeführt wird
+- WebAssembly-Module werden in der in der Browser Engine/VM ausgeführt
+- Es gelten also die gleichen Sicherheitsbeschränkungen wie auch schon für JavaScript Code
+    - Same-Origin Policy
+    - Auf Dateisystem oder Hardware kann auch nur mit Permission zugegriffen werden
+- Außerdem kann WASM nicht aufs DOM zugreifen
+- Aus Securitysicht relevant sind Bytecode und dessen Ausführung. Eigentlich kann man sogar noch weiter reduzieren auf nur die Ausführung, denn der Bytecode kommt i. d. R. von einer nicht vertrauenswürdigen Quelle. Daher müssen wir annehmen, dass dieser komprommitiert ist -> Schutzmaßnahmen müssen also im Browser stattfinden
+- Einige Sprachen die WASM als Compilation-Target vorweisen erlauben den Zugriff auf beliebige Speicheradressen. Ein Angreifer könnte das ja potentiell nutzen, um Informationen wie Passwörter oder Authentifizierungstokens auszulesen, sofern er den Speicherort kennt. -> WebAssembly Modulen werden seperate Speicherbereiche zugewiesen
+    - Dieser Speicher ist eine dedizierte Untermenge des Heaps der JavaScript VM und wird durch einen ArrayBuffer realisiert. Dadurch gelten für den gesamten Speicher eines WebAssembly Modules die gleichen Beschränkungen wie für normale JS Objekte. 
+    - Da sich der komplette Heap des WebAssembly-Moduls im ArrayBuffer steckt, weiß die JavaScript Umgebung, wie groß der Heap des Modules ist und wo genau er liegt. Dadurch kann bei jedem Speicherzugriff exakt geprüft werden, ob sich der Zugriff innerhalb des ArrayBuffers bewegt -> Unerlaubte Speicherzugriffe unterbinden
+    - Dadurch haben wir zwar etwas Overhead, aber dieser Overhead ist notwendig, da die Ausführung sonst viel zu gefährlich wäre
+- Genauso gefährlich wären Zugriffe auf den Execution-Stack. Dieser enthält lokale Variablen und die Rücksprungadressen. WebAssembly verhindert einen Schreibzugriff auf den Execution-Stack, indem er außerhalb des Speichers des WebAssembly-Moduls gespeichert wird -> Schutz des Execution-Stacks
+- Generell Sprünge im Code können eine Gefahr darstellen. WebAssembly springt ausschließlich bei Funktionsaufrufen Speicheradressen an. Diese Adressen werden erst dynamisch zur Laufzeit berechnet. -> Tabellen, um Manipulation zu verhindern
+    - Statt Zieladresse im call-Befehl verwendet der call Befehl zwei Parameter. Einen Index und eine Funktionssignatur. Der Index zeigt in die Tabelle mit Funktionspointern, die auch außerhalb des WebAssembly-Speichers gespeichert wird, sodass das Überschreiben nicht möglich ist.
+    - Prüfung ob Funktionssignatur mit der an Index X übereinstimmt
+        - Nur wenn ja, wird die Funktion an der Adresse aufgerufen
+        - Wenn nein, wird das Modul sofort gestoppt
+- Unsichere Features weglassen, aber Kompatibilität zu C/C++ behalten
+    - Alle Funktionen und Datentypen beim Laden deklarieren, auch wenn dynamisch gelinkt wird
+        - Dadurch ist Control-Flow-Integrity gewährleistet
+    - Funktionsaufrufe über Tabellen 
+    - Execution-Stack geschützt
+    - Branches müssen zu gültigen Zielen in der Funktion führen
+- JavaScript Exceptions um abnormales Verhalten an die Laufzeitumgebung zu melden -> Traps
+
+- Trotz dessen will ich euch nicht vorgaukeln, dass WASM die perfekt sichere Lösung ist. Es gab natürlich auch mal Sicherheitslücken. Crypto Mining, Spectre Angriffe und ausbrüche aus der Sandbox sind schon vorgekommen. Es gibt auch interessante side-channel-attacks, aber ich glaube das ist eher was für eine Master oder Doktorarbeit, so wie ich das aus dem Arikel herauslesen konnte. 
 
 ## WebAssembly Runtimes
 
-- Jetzt noch zu ein paar advanced concept, wenn es um WebAssembly geht
+- Jetzt noch zu ein paar advanced concepts, wenn es um WebAssembly geht
 - WebAssembly überall ausführen, also auch außerhalb des Browsers
 - WASM Runtimes sind einfach low level virtual stack machines
 - Bekannte Beispiele sind Wasmer, Wasmtime und die WebAssembly Micro Runtime
