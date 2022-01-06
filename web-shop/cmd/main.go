@@ -24,7 +24,7 @@ func main() {
 			"https://unpkg.com/@patternfly/patternfly@4.135.2/patternfly.css",
 			"https://unpkg.com/@patternfly/patternfly@4.135.2/patternfly-addons.css",
 		},
-		Title: "Airdrip",
+		Title: "Web Shop",
 	})
 
 	if err := http.ListenAndServe(":8000", nil); err != nil {
