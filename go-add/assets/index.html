@@ -1,7 +1,8 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <link rel="shortcut icon" href="#">
+        <link rel="shortcut icon" href="#"> 
+        <link rel="stylesheet" href="https://unpkg.com/mvp.css">
         <script src="wasm_exec.js"></script>
         <script>
             const go = new Go();
@@ -14,10 +15,10 @@
         </script>
     </head>
     <body>
-        <textarea id="addinputa" name="addinput" cols="20" rows="1"></textarea>
-        <textarea id="addinputb" name="addinput" cols="20" rows="1"></textarea>
+        <textarea id="addinputa" name="addinput" cols="3" rows="1"></textarea>
+        <textarea id="addinputb" name="addinput" cols="3" rows="1"></textarea>
         <input id="button" type="submit" name="button" value="add" onclick="addfunc(addinputa.value, addinputb.value)"/>
-        <textarea id="addoutput" name="addoutput" cols="20" rows="1"></textarea>
+        <textarea id="addoutput" name="addoutput" cols="3" rows="1"></textarea>
     </body>
     <script>
         var addfunc = function(a, b) {

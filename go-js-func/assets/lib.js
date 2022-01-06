@@ -1,11 +1,15 @@
+// Function returning an integer
 function add(a,b) {
     return a + b
 }
 
+// Function returning a string
 function hello() {
     return "Hello from JavaScript!"
 }
 
-var env = "VARIABLE"
+// Variable
+var name = "Tom Riddle"
 
-var config = {};
+// Object
+var obj = {};

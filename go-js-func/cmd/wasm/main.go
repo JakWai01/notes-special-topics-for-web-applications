@@ -6,22 +6,29 @@ import (
 )
 
 func main() {
-	num := js.Global().Call("add", 12, 24)
-	fmt.Println(num.Int())
+	// Call JS add function with parameters 12 and 24 and print the result
+	sum := js.Global().Call("add", 12, 24)
+	fmt.Println(sum.Int())
 
-	s := js.Global().Call("hello")
-	fmt.Println(s)
+	// Call JS hello function and print the result
+	message := js.Global().Call("hello")
+	fmt.Println(message.String())
 
-	env := js.Global().Get("env").String()
-	fmt.Println(env)
+	// Get the value of the variable name
+	name := js.Global().Get("name")
+	fmt.Println(name.String())
 
-	js.Global().Set("env", "CHANGED")
+	// Change the value of the variable
+	js.Global().Set("name", "Lord Voldemort")
 
-	envChanged := js.Global().Get("env").String()
-	fmt.Println(envChanged)
+	// Get the value of the variable name again
+	name = js.Global().Get("name")
+	fmt.Println(name.String())
 
-	js.Global().Get("config").Set("key", "12345")
+	// Get the object and set a key and value
+	js.Global().Get("obj").Set("Horkrux", "Nagini")
 
-	objectChanged := js.Global().Get("config").Get("key").String()
-	fmt.Println(objectChanged)
+	// Get the value of the Horkrux key
+	object := js.Global().Get("obj").Get("Horkrux")
+	fmt.Println(object.String())
 }
