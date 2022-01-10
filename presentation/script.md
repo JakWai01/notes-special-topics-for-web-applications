@@ -9,13 +9,13 @@
 
 ## Definition
 
-- Einfach: WebAssembly erlaubt es uns, Code geschrieben in anderen Sprachen als JavaScript im Browser ausführen zu können
+- Einfach: WebAssembly definiert einen Bytecode, der im Browser ausgeführt werden kann. WebAssembly Bytecode kann das Compilation target von verschiedensten Sprachen sein, was uns erlaubt Code, welcher in andere Sprachen als JavaScript geschrieben ist, im Browser auszuführen. 
 - Genauer: Definition von der offiziellen **webassembly.org** Website
-- Um genauer zu verstehen, was es mit WebAssembly auf sich hat klären wir zunächst ein paar Begrifflichkeiten
+- Wir wollen die Definition der Website noch etwas genauer betrachten um die einzelnen relevanten Komponenten run um WebAssembly zu verstehen
 
 ## Binary Instruction Format
 
-- Format mit Maschineninstruktionen, welches aus 1en und 0en besteht und nach der dekodierung von der CPU ausgeführt werden kann
+- Format mit Maschineninstruktionen, welches aus 1en und 0en besteht und nach der dekodierung von einer CPU ausgeführt werden kann
 - Dieses Format kann verschiedene Instruction Set Architectures als Ziel haben. Euch ist da wahrscheinlich x86, ARM oder RISC-V bekannt
 - WebAssembly ist also ein Binary Instruction Format
 - Es werden allerdings virtuelle Insruktionen für eine konzeptionelle Maschine verwendet
@@ -331,4 +331,5 @@
 ## Webshop
  
 - Zum Abschluss noch mein Web Shop
-- Das interessante ist, dass das Frontend in diesem Fall mit Go geschrieben ist und mit Hilfe von WASM executed wird
+- Web Shop mit go-app erstellt, einem Go package um web apps zu erstellen
+- HTML kann deklarativ in Go geschrieben werden
