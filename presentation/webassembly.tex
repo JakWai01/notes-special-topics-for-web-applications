@@ -533,40 +533,17 @@ wasmtime main.wasm
     \item Normally, the \textbf{standard library} of a programming language \textbf{provides} said \textbf{system interface} which is os-dependent
     \item E.g. \lstinline{prinft} being compiled for a Windows machine could use the \textbf{Windows API} to interact with the machine. If it's being compiled for Mac or Linux, \textbf{POSIX} will be used
     \item With WASM you \textbf{don't know which operating system} you're targeting even when you're compiling. So you can't use any single OS system interface 
+    \item WASI provides a \textbf{compatible implementation} with multiple OSs
     \item Portability and Security with \textbf{Sandboxing}
 \end{itemize}
 \end{frame}
 
-% Hier fehlt eine Komponente: WASI, damit wir das richtig realisieren können. Trotz dessen beleuchten wir erst die Security und diese Grafik kann dies hervorragend beleuchten.
-% \item When the operating system gets asked some input or output, it needs to determine if one is allowed the information $\rightarrow$ Ownership and Groups
-% \item Protects users from each other and was useful back in time when systems were multi-user systems
-% \item Nowadays it's actually more important to protect the user from itself, since most systems are single user systems
-% \item We are pulling in so much third party code that whe need to control over what it can do $rightarrow$ Sandboxing
-% \item Can't directly talk to the OS. Instead create a sandbox, we lock the program in and expose some functions to it with just the allowed functionality
-% \item Isn't automatically secure, since the host still can grant full permissions which would be no better than the first time
-% \begin{frame}{WebAssembly System Interface - WASI}
-%     \begin{figure}
-%         \includegraphics[scale=0.07]{./images/sandbox.png}
-%         \caption{\href{https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/}{Sandboxing}}
-%     \end{figure}
-% \end{frame}
-
-% \item In normal OS, if code needs to open file, it calls the open function containing a string with the path to the file. This succeeds if the user has necessary permissions. 
-% \item Instead if you call a function interacting with the files in WASI, you have to pass a file descriptor, which has permissions attached to it. This way you can't randomly open a file. Instead the code can only operate in the directory it was given.
-% \item So the runtime passes in the file descriptors that an app can use at the top level code. The code itself can then propagate those file descriptors through the rest of the modules needed (Insert cude picture here)
-% \begin{frame}{WebAssembly System Interface - WASI}
-%     \begin{figure}
-%         \includegraphics[scale=0.06]{./images/file.png}
-%         \caption{\href{https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/}{File Descriptor}}
-%     \end{figure}
-% \end{frame}
-
 \subsection{WebAssembly Gateway Interface}
 % WAGI - Read infoq article
-\begin{frame}{WebAssembly Gateway Interface - WAGI}
+\begin{frame}{WebAssembly Gateway Interface - WAGI*}
     \begin{itemize}
-        \item \textbf{HTTP handlers} using \textbf{STDIN} and \textbf{STDOUT} and \textbf{environment variables}
         \item Write \textbf{microservices} and \textbf{web apps}
+        \item Run WASM binaries as \textbf{HTTP handlers} using \textbf{STDIN} and \textbf{STDOUT} and \textbf{environment variables}
         \item When HTTP \textbf{request} is received the WASM binary gets executed with the necessary Information contained in STDIN and environment variables
         \item \textbf{Responses} are sent to STDOUT and binary can terminate again.
         \item \textbf{WAGI-Server} can be used
@@ -577,7 +554,7 @@ wasmtime main.wasm
 
 \begin{frame}{Conclusion}
 \begin{itemize}
-    \item No direct DOM access 
+    \item No direct \textbf{DOM} access 
     \begin{itemize} 
         \item Plain JavaScript faster for normal websites 
         \item JS + glue code + WASM just not enough benefits in that usecase 
@@ -586,8 +563,8 @@ wasmtime main.wasm
     \item \textbf{Portability} and interoperability
     \item \textbf{Here to stay}
     \begin{itemize}
-        \item \textbf{Krustlet} - Running WASM Modules instead of container images on K8s clusters
         \item Backed by the \textbf{Bytecode Allegiance} (ARM, Google, Intel, Microsoft, Mozilla...)
+        \item \textbf{Krustlet} - Running WASM Modules instead of container images on K8s clusters
     \end{itemize}
 \end{itemize}
 \end{frame}

@@ -336,7 +336,12 @@ TODO: WASI überarbeiten
 - Normalerweise übernimmt die Standard library einer programmiersprache diese Aufgabe und stellt das system interface für die jeweilige Sprache bereit
 - Zum Beispiel könnte für die `printf` Function auf einer Windows Maschine die Windows API genutzt werden. Auf einer Linux oder Mac Maschine stattdessen könnte POSIX verwendet werden
 - WASM weiß nicht, auf welchem System die Binary ausgeführt wird, daher kann kein vorgefertigtes OS interface verwendet werden
-- Ziel ist portabilität und Sandboxing
+- Realisiert wird das ganze wie bei CloudABI's capability-orientiert, weswegen WASI auch gut in das Sanboxing Modell von WASM passt. WASI hat keine Möglichkeit nach außen zu kommunizieren ohne von außen mitgegebene capabilities e.g. File descriptors. 
+- E.g. Statt open, openat, hier wird dann ein FileDescriptor benötigt. 
+    - Es gibt aber trotzdem auf lipreopen basierte open functions
+- Es gibt eine system call wrapper layer, welche calls zur eigentlicheen WASI Implementation macht, welche diese calls dann auf die Umgebung mapped
+- Ziel damit ist eben portabilität und sandboxing auf system interface level
+    - Geplant ist eine full-featured libc implementation 
 
 ## WAGI 
 
@@ -353,15 +358,14 @@ TODO: WASI überarbeiten
 - Wenn wirklich performance benötigt wird und nicht aller Gain den Overhead verschwindet, dann lohnt sich WebAssembly allerdings extrem, weswegen auch schon so viele Firmen auf WebAssembly in gewissen Teilen ihrer Anwendungen schwören
 - Portability and interoperability
 - Here to stay 
-    - offener standard, der von allen unterstützt und gefördert wird
+    - Offener Standard, der Unterstützt und Gefördert wird e.g. von der ByteCode Allegiance, die sich gegründet, um WASM weiterzuentwickeln (ARM, Google, Intel, Microsoft und Mozilla)
     - Krustlet, was die Entwicklung weitertreibt  und auch nochmal einen kleine Verbindung zu Felix seinem Teil darstellt, da Krustlet im Endeeffekt erlaubt WASM-Modules statt container images auf Kubernetes Clustern laufen zu lassen
--   Gefördert von der ByteCode Allegiance, die sich gegründet, um WASM weiterzuentwickeln (ARM, Google, Intel, Microsoft und Mozilla)
 
 ## Conclusion
 
 - Um abzuschließen nochmal kurz zur Grafik vom Anfang 
 - Ich glaube sehr wohl, dass wir einen weiteren Wendepunkt in der performance im Web erreicht haben
-- Und ich glaube auch, dass es in Zukunft nicht mehr so sein wird, dass WASM JS benötigt, aber JS WASM nicht unbedingt benötigt, sondern dass JavaScript WASM benötigen wird, da wie auch schon bei NodeJS einfach die Anforderungen an Web Applikationen steigen werden und daher nicht mehr auf den Performancezuwachs durch WASM verzichtet werden kann.
+- Und ich glaube auch, dass es in Zukunft nicht mehr so sein wird, dass WASM JS benötigt, aber JS WASM nicht unbedingt benötigt, sondern dass auch JavaScript WASM benötigen wird, da wie auch schon bei NodeJS einfach die Anforderungen an Web Applikationen steigen werden und daher nicht mehr auf den Performancezuwachs durch WASM verzichtet werden kann.
 
 ## Webshop
  
