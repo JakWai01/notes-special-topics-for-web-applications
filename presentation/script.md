@@ -10,15 +10,19 @@
 ## Definition
 
 - Einfach: WebAssembly definiert einen Bytecode, der im Browser ausgeführt werden kann. WebAssembly Bytecode kann das Compilation target von verschiedensten Sprachen sein, was uns erlaubt Code, welcher in andere Sprachen als JavaScript geschrieben ist, im Browser auszuführen. 
+- Wir stehen also vor einer Welt, in der wir unsere Software über den Browser zum Enduser delivern können mit near native performance, ohne Installation
+- WebAssembly ist seit 2019 ein W3C Standard, was dieses Ziel noch viel realistischer macht
+
 - Genauer: Definition von der offiziellen **webassembly.org** Website
 - Wir wollen die Definition der Website noch etwas genauer betrachten um die einzelnen relevanten Komponenten run um WebAssembly zu verstehen
 
 ## Binary Instruction Format
 
 - Format mit Maschineninstruktionen, welches aus 1en und 0en besteht und nach der dekodierung von einer CPU ausgeführt werden kann
-- Dieses Format kann verschiedene Instruction Set Architectures als Ziel haben. Euch ist da wahrscheinlich x86, ARM oder RISC-V bekannt
-- WebAssembly ist also ein Binary Instruction Format
-- Es werden allerdings virtuelle Insruktionen für eine konzeptionelle Maschine verwendet
+- Binaries können grundlegend zweier Natur sein: Maschinencode oder Bytecode, welcher von einer virtuellen Maschine ausgeführt werden kann
+- Im Falle WebAssembly redet man von einem Bytecode
+- Binaries können verschiedene Instruction Set Architectures als Ziel haben. Euch ist da wahrscheinlich x86, ARM oder RISC-V bekannt
+- WASM verwendet allerdings virtuelle instruktionen für eine konzeptionelle Maschine, um am Ende mit möglichst vielen der Instruction Set Architectures kompatibel zu sein
 - Man muss sich das WebAssembly Binary Instruction Format also eher als überschneidung mehrerer Instruction Formate vorstellen, welches nicht einfach so auf ein einzelnes gemapped werden kann
 
 ## Stack-Based Virtual Machine
@@ -33,7 +37,7 @@
 - Naja, WebAssembly wurde dazu designed auf verschiedenen Betriebssystemen und Architekturen, im Web oder Nativ zu laufen. Das erklärt eigentlich schon das "portabel" 
 - Beim kompilieren kann als target WebAssembly ausgewählt werden
 - Offener Standard
-- Geringe Anforderungen: 
+- Geringe Anforderungen an WASM execution environments: 
     - 8-bit Bytes
     - Adressierbare Bytes 
     - Little Endian 
@@ -56,7 +60,7 @@
 ## Use Cases 
 
 - Im Browser: 
-    - Schnellere Execution von Sprachen, welche zuvor zum Web Cross-Compiled werden mussten
+    - Schnellere Ausführung von Sprachen, welche zuvor zum Web Cross-Compiled werden mussten
     - VR and AR, da diese sehr viel Performance benötigen
     - Simulationen/Emulationen (DOSBox, QEMU, ...)
     - Remote Desktop Solutions
@@ -65,7 +69,6 @@
 - Außerhalb des Browsers:
     - Serverseitige Anwendungen
     - Spieleplattformen (wasm binaries lassen sich super verteilen)
-    - Parallelismus über mehrere Nodes
 - Projekte, welche gerade WASM verwenden: 
     - Blazor
     - AutoCAD
@@ -75,11 +78,17 @@
     - D3wasm (Doom 3 im Browser, WebAssembly Demo)
     - go-app (Frontend mit Hilfe von WASM in Go schreiben)
 
+
+
+
+In der WebAssembly spezifikation ist nicht nur das Binary Instruction Format definiert, sondern auch eine Assemblyartige Sprache, mit dem man WebAssembly Module schreiben kann. Und dabei handelt es sich um WebAssemblyText.
+
 ## WebAssembly Text
 
 - Eine Menschenlesbare Text-Repräsentation von WASM-Binaries
 - Konzipiert um in Editoren oder im Browser-Inspektor betrachtet zu werden
 - .wat Dateien können mit Hilfe des WebAssembly Binary Toolkits (WABT) zu .wasm kompiliert werden
+- Wer sich da noch mehr Informieren möchte, oder auch allgemein zu WebAssembly, die MDN Webdocs sind dafür meiner Ansicht nach die beste Quelle
 - Im folgenden ein kleines Beispiel: 
     - Wir sehen hier eine simples WASM module mit einer add function, welche zwei Parameter nimmt und diese addiert
     - Module: ist einfach eine stateless WASM Binary mit einer gewissen Menge an Code. Angelehnt an ES2015 Module.
@@ -89,18 +98,14 @@
         - Stack Machine - Push zwei Values auf den Stack und addiere mit der i32 add Instruktion
         - i32 add: Poppe die zwei Values und Pushe das Ergebnis 
     - Export block: "add" ist der identifier, welcher von JavaScript verwendet wird und $add ist intern, um die zu exportierende Funktion festzustellen
-- Unsere exportierte Funktion könnte jetzt so aus JavaScript aufgerufen werden. Diese Funktion kompiliert und instanziiert ein WebAssemembly Module direkt von einer gestreamten Quelle. Das ist der Effizienteste Weg, ein WASM-Modul zu laden. Dieses Code snippet, werden wir in den Demos noch öfter sehen:  
-    ``` 
-    WebAssembly.instantiateStreaming(fetch('add.wasm'))
-    .then(obj => {
-        console.log(obj.instance.exports.add(1, 2));  // "3"
-    });
-    ```  
+- Diesen nennen wir jetzt ein exportiertes WASM Module mit einer add function
+- Unsere exportierte Funktion könnte jetzt so aus JavaScript aufgerufen werden. Diese Funktion kompiliert und instanziiert ein WebAssemembly Module direkt von einer gestreamten Quelle. Das ist der Effizienteste Weg, ein WASM-Modul zu laden, da hier eben streaming verwendet wird und so eben nicht alles auf einmal heruntergeladen werden muss. Will man das machen gibt es eine seperate compile und instantiate methode. Dieses Code snippet, werden wir in den Demos noch öfter sehen
+
+Dann würde ich sagen haben wir erstmal über die grundlegende Spezifikation und Definition von WebAssembly geredet und schauen uns jetzt mal ein paar Demos an, wie wir konkret mit WebAssembly umgehen können.
 
 ## Demo - Prequisitories
 
-- Jetzt sind wir aber schon mittendrin, jetzt sollten wir uns auch mal eine Demo anschauen, um zu sehen wie wir mit WebAssembly arbeiten können
-- Kleiner Disclaimer. Die Demo wird primär in Go stattfinden, meiner Lieblingssprache. Teile sind auch in Rust.
+- Kleiner Disclaimer. Die Demo wird primär in Go stattfinden. Teile sind auch in Rust. Der Syntax ist aber sehr trivial, weswegen wir uns dazu entschieden haben Go zu verwenden.
 
 ## Unterstützte Sprachen
 
@@ -111,8 +116,10 @@
     - Rust
     - Zig
     - C# 
-    - AssemblyScript
+    - AssemblyScript, ein Typescript-Dialekt ist, der mit WebAssembly im Hinterkopf designed wurde.
 - Es gibt noch viel mehr, aber die sind entweder nicht so interessant oder noch nicht bereit für production usage
+
+Dann würde ich sagen, ab zur Demo. Wir beginnen mal mit einem simplen Hello World!
 
 ## Demo - File Structure
 
@@ -133,14 +140,16 @@
 ## Demo - Javascript Glue Code
 
 - Es ist eine gewisse Menge an JavaScript Code nötig, um das WebAssembly Modul, welches wir gerade erstellt haben im Browser zu laden. 
-- Dieser Code ist nötig, da WASM nicht auf Web APIs zugreifen kann. Daher muss WASM JavaScript callen, welche dann den API call machen. Dafür ist der Glue Code da. In e.g. Emscripten implementiert der glue Zugriff auf SDL, OpenGL, OpenAL und teile von POSIX.
+- Dieser Code ist nötig, da WASM nicht auf Web APIs zugreifen kann. Daher muss WASM JavaScript callen, welche dann den API call machen. Dafür ist der Glue Code da. In e.g. Emscripten implementiert der glue code Zugriff auf SDL, OpenGL, OpenAL und teile von POSIX.
 - Dieser Code ist in der Regel immer bereitgestellt
 - In Go erhalten wir den Glue Code aus der Go installation (`wasm_exec.js`)
+- Ganz wichtig hierbei ist, dass sich dieser mit den Go Versionen ändert. Wenn also das Program so nicht bei euch läuft, versucht mal die `wasm_exec.js` durch eure eigene auszutauschen.
 
 # Demo - assets/index.html
 
 - Die `index.html` included die `wasm_exec.js` Datei, welches der glue code ist
 - Im script laden wir das WebAssembly Module wie auch schon im WebAssembly Text Beispiel
+- Das importObject enthält dabei die Werte, die in die neue Instanz einfließen sollen, also Funktionen oder `WebAssembly.Memory` Objekte
 
 # Demo - cmd/server/main.go
 
@@ -151,6 +160,9 @@
 - Diesen WebServer können wir ausführen und das Ergebnis im Browser betrachten
 - In der Console können wir unser Hello World betrachten, welches aus unserem WASM Module entspringt
 - Im Inspektor können wir auch unsere WASM-Datei entdecken und auch den Code in WebAssembly Text-Repräsentation
+
+Die nächsten Demos werden jetzt auf die interoperability abzielen, die ich schon vorher erwähnt hattte. Wir können WebAssembly von JavaScript callen und JavaScript von WebAssembly callen. 
+In der foldenden Demo werde ich nun die Exports präsentieren, die es erlauben WebAssembly-Module in JavaScript zu callen.
 
 ## Demo Exports 
 
@@ -168,6 +180,7 @@
 - Wir haben nun ein simples Interface, mit welchem wir unsere im WASM Module definierte `add` function callen können.
 - Genauso können wir jetzt add in der Konsole aufrufen
 
+
 ## Demo Imports
 
 - Die letzte Demo zeigt uns noch, wie wir auf JavaScript aus unserem WASM Module zugreifen können.
@@ -181,20 +194,23 @@
     - Callen add function mit 2 Parametern 
     - Printen das Ergebnis. Müssen aber den Typ mitgeben angeben, da JavaScript dynamische Typen hat und es daher theoretisch alles sein könnte. 
     - Callen hello
-    - Greifen auf die `env` Variable zu
-    - Ändern die `env` Variable und schauen den veränderten Wert an 
+    - Greifen auf die `name` Variable zu
+    - Ändern die `name` Variable und schauen den veränderten Wert an 
     - Setzen einen key und eine value im `config` Object 
     - Betrachten die value zum `key`
 
 - In der `index.html` müssen wir zusätzlich nur die `lib.js` Datei includen
 
+Und schon können wir das Ergebnis im Browser betrachten.
+
 ## Additional Information 
 
 - Es gibt noch weitere Informationen die beim Umgang mit WASM interessant sind
+- WASM-Funktionen unterstützen nur Integer und Floats. Mit anderen Datentypen kann über den Linear Memory gearbeitet werden
 - Linear Memory - Ein kontinuierlicher Buffer von Bytes, auf welche von JavaScript und WebAssembly zugegriffen werden kann 
 - DOM Manipulation wird wie schon erwähnt nicht unterstützt. Es muss also über JavaScript laufen. Dafür können aber packages wie `syscall/js` verwendet werden. 
 - Rust verwendet für WASM das `wasm-bindgen` package. AssemblyScript hat diese features natively, da die Sprache mit WebAssembly im Hinterkopf erstellt wurde
-- WASM-Funktionen unterstützen nur Integer und Floats. Mit anderen Datentypen kann über den Linear Memory gearbeitet werden
+
 
 ## Terminology 
 
@@ -206,7 +222,7 @@
 
 - Nachdem wir wissen was WebAssembly ist, wofür wir es brauchen und wie wir damit arbeiten können, können wir mal schauen, was WASM macht, um die von ihnen selbstgesteckten Ziele, welche auf ihrer Website stehen zu erreichen
 - Wir fokussieren in dieser Präsentation mal auf "Efficient and fast" und "Safe", beziehungsweise auf die Security
-- Zuerst betrachten wir aber, was WebAssembly so schnell macht
+- Zuerst betrachten wir aber, was WebAssembly so schnell macht, denn WebAssembly verspricht uns near native speed beim ausführen von Code
 
 ## Efficient and fast 
 
@@ -215,10 +231,17 @@
 - Unten WASM
 - Im folgenden werden wir die einzelnen Schritte evaluieren und vergleichen 
 
+## Efficient and fast - Parsing
+
+- JavaScript code wird zu einem Abstract Syntax Tree geparsed. Jeder der in Algorithmen und Datenstrukturen war oder schonmal einen Interpreter geschrieben hat, kennt das schon
+- Dann wird dieser Code zu einer Art Bytecode geparsed
+- In diesem Schritt kann man dann auch anfangen WebAssembly zu betrachten, denn wir starten bereits mit diesem Bytecode
+- Dieser muss allerdings noch dekodiert und validiert werden
+
 ## Efficient and fast - Compilation + Optimization
 
 - JavaScript wird während der Ausführung mit einem JIT Compiler kompiliert. Da Javascript dynamic typing besitzt kann es sein, dass einzelnen Schritte mehrmals durchgeführt werden müssen, bis die richtigen Typen gefunden wurden
-- WebAssembly spart in diesem Schritt Zeit, da wir die Typen bereits kennen und der Code bereits mit e.g. LLVM optimiert wurde
+- WebAssembly spart in diesem Schritt Zeit, da wir die Typen bereits kennen und der Code bereits mit e.g. LLVM optimiert wurde, als die WebAssembly Binary erstellt wurde
 
 ## Efficient and fast - Reoptimization
 
@@ -242,7 +265,7 @@
 ## Efficient and fast - Garbage Collection
 
 - JavaScript benutzt Garbage collection, um speicher von unbenutzen Variablen freizugeben
-- Wenn man nicht weiß, wann der GC arbeited, kann es zu unvorhersebarer performance kommen (eher marginale unterschiede)
+- Wenn man nicht weiß, wann der GC arbeitet, kann es zu unvorhersebarer performance kommen (eher marginale unterschiede)
 - WASM hat keine GC, spart sich also diesen Schritt. Es ist aber tatsächlich in der Planung garbage collection hinzuzufügen
 
 ## Evaluation
@@ -253,7 +276,7 @@
 ## Security 
 
 - Bytecode, der in einer Sandbox ausgeführt wird
-- WebAssembly-Module werden in der in der Browser Engine/VM ausgeführt
+- WebAssembly-Module werden in der Browser Engine/VM ausgeführt
 - Es gelten also die gleichen Sicherheitsbeschränkungen wie auch schon für JavaScript Code
     - Same-Origin Policy
     - Auf Dateisystem oder Hardware kann auch nur mit Permission zugegriffen werden
@@ -279,12 +302,14 @@
 
 - Trotz dessen will ich euch nicht vorgaukeln, dass WASM die perfekt sichere Lösung ist. Es gab natürlich auch mal Sicherheitslücken. Crypto Mining, Spectre Angriffe und ausbrüche aus der Sandbox sind schon vorgekommen. Es gibt auch interessante side-channel-attacks, aber ich glaube das ist eher was für eine Master oder Doktorarbeit, so wie ich das aus dem Arikel herauslesen konnte. 
 
+Jetzt wo wir schon einiges noch ein paar `advanced concepts`. Beginnen wir mit den WebAssembly runtimes.
+
 ## WebAssembly Runtimes
 
-- Jetzt noch zu ein paar advanced concepts, wenn es um WebAssembly geht
 - WebAssembly überall ausführen, also auch außerhalb des Browsers
 - WASM Runtimes sind einfach low level virtual stack machines
 - Bekannte Beispiele sind Wasmer, Wasmtime und die WebAssembly Micro Runtime
+- Vielleicht kennen manche von euch auch noch Lucit, aber Lucit wurde für `wasmtime` deprecated
 
 ## Demo - wasmtime
 
@@ -299,6 +324,10 @@
 - go verwendet eine wasm binary, welche zuvor in Rust geschrieben wurde
 - go run main.go
 
+Wenn wir nun schon bei dem lokalen ausführen von WASM Binaries sind, brauchen wir eigentlich noch einen Weg, um mit dem System zu interargieren.
+
+
+TODO: WASI überarbeiten
 ## WASI 
 
 - Die folgenden zwei Konzepte sind highly experimental. Daher habe ich auch keine Demos dazu, da diese im Moment noch nicht viel Nutzen werden
@@ -320,7 +349,13 @@
 
 - Da WASM keinen direkten DOM-Zugriff hat und daher alle DOM interaktionen über JavaScript laufen müssen, haben wir einen extremen Overhead in dieser Hinsicht. 
 - Normale Websiten sind daher in JS schneller als in JS + glue code + WASM
-- Wenn wirklich performance benötigt wird und nicht aller Gain durch die FFI's wettgemacht wird, dann lohnt sich WebAssembly allerdings extrem, weswegen auch schon so viele Firmen auf WebAssembly in gewissen Teilen ihrer Anwendungen schwören
+- "Right tool for the right job"
+- Wenn wirklich performance benötigt wird und nicht aller Gain den Overhead verschwindet, dann lohnt sich WebAssembly allerdings extrem, weswegen auch schon so viele Firmen auf WebAssembly in gewissen Teilen ihrer Anwendungen schwören
+- Portability and interoperability
+- Here to stay 
+    - offener standard, der von allen unterstützt und gefördert wird
+    - Krustlet, was die Entwicklung weitertreibt  und auch nochmal einen kleine Verbindung zu Felix seinem Teil darstellt, da Krustlet im Endeeffekt erlaubt WASM-Modules statt container images auf Kubernetes Clustern laufen zu lassen
+-   Gefördert von der ByteCode Allegiance, die sich gegründet, um WASM weiterzuentwickeln (ARM, Google, Intel, Microsoft und Mozilla)
 
 ## Conclusion
 

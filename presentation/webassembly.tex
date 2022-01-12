@@ -304,11 +304,11 @@ cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
 
 \begin{frame}{Additional Information}
     \begin{itemize}
+        \item WebAssembly functions only support \textbf{integers} and \textbf{floating point numbers}. To work with other data types, linear memory can be used
         \item \textbf{Linear Memory} - Continuous buffer of unsigned bytes that can be read from and stored into by both Wasm and Javascript
         \item \textbf{DOM Manipulation} - The \textbf{syscall/js} package can also be used to interact with the DOM. WASM \textbf{cannot} directly interact with the DOM! It has to call JS!
         \item \textbf{Rust} is using \textbf{wasm-bindgen} to achieve the same as Go with syscall/js
         \item \textbf{AssemblyScript} provides those features out of the box...
-        \item WebAssembly functions only support \textbf{integers} and \textbf{floating point numbers}. To work with other data types, linear memory can be used
     \end{itemize}
 \end{frame}
 
@@ -587,8 +587,8 @@ wasmtime main.wasm
     \item \textbf{Here to stay}
     \begin{itemize}
         \item \textbf{Krustlet} - Running WASM Modules instead of container images on K8s clusters
+        \item Backed by the \textbf{Bytecode Allegiance} (ARM, Google, Intel, Microsoft, Mozilla...)
     \end{itemize}
-    \item Backed by the \textbf{Bytecode Allegiance} (ARM, Google, Intel, Microsoft, Mozilla...)
 \end{itemize}
 \end{frame}
 
