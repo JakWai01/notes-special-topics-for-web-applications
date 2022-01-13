@@ -213,13 +213,11 @@ Und schon können wir das Ergebnis im Browser betrachten.
 - Bekannte Beispiele sind Wasmer, Wasmtime und die WebAssembly Micro Runtime
 - Vielleicht kennen manche von euch auch noch Lucit, aber Lucit wurde für `wasmtime` deprecated
 
-## wasmtime demo
 
 Wenn wir nun schon bei dem lokalen ausführen von WASM Binaries sind, brauchen wir eigentlich noch einen Weg, um mit dem System zu interargieren.
 
 ## WASI 
 
-- Zitat von Lin Clark
 - Mit dem System interagieren, wenn wir WASM außerhalb des Browsers ausführen
 - Normalerweise übernimmt die Standard library einer programmiersprache diese Aufgabe und stellt das system interface für die jeweilige Sprache bereit
 - Zum Beispiel könnte für die `printf` Function auf einer Windows Maschine die Windows API genutzt werden. Auf einer Linux oder Mac Maschine stattdessen könnte POSIX verwendet werden

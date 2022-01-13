@@ -329,44 +329,7 @@ cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
     \end{itemize}
 \end{frame}
 
-% Show wasmer demo as well
-\begin{frame}[fragile]{Demo - wasmtime}
-\begin{itemize}
-    \item
-    \textbf{Install Rust:}
-    \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-curl https://sh.rustup.rs -sSf | sh
-    \end{lstlisting}
-    \item
-    \textbf{Install wasmtime:}
-    \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-curl https://wasmtime.dev/install.sh -sSf | bash
-    \end{lstlisting}
-    \item
-    \textbf{Add WebAssembly target to Rust:}
-    \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-rustup target add wasm32-wasi
-    \end{lstlisting}
-    \item
-    \textbf{Compile to WebAssembly:}
-    \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-rustc main.rs --target wasm32-wasi
-    \end{lstlisting}
-    \item
-    \textbf{Execute:}
-    \begin{lstlisting}[language=bash,basicstyle=\scriptsize]
-wasmtime main.wasm
-    \end{lstlisting}
-\end{itemize}
-\end{frame}
-
 \subsection{WebAssembly System Interface}
-
-\begin{frame}{WebAssembly Sytem Interface - WASI}
-    \begin{quotation}
-        "Developers are starting to \textbf{push WebAssembly beyond the browser} [...]. Code outside of a browser needs a way to \textbf{talk to the system} [...]. And the WebAssembly platform doesn’t have that yet." - Lin Clark
-    \end{quotation}
-\end{frame}
 
 \begin{frame}{WebAssembly System Interface - WASI}
 \begin{itemize} 
