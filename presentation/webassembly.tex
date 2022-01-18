@@ -301,6 +301,7 @@ cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
         \item WebAssembly functions only support \textbf{integers} and \textbf{floating point numbers}. To work with other data types, linear memory can be used
         \item \textbf{Linear Memory} - Continuous buffer of unsigned bytes that can be read from and stored into by both Wasm and Javascript
         \item \textbf{No DOM Manipulation} - Use JS with e.g. \textbf{syscall/js} in \textbf{Go} or \textbf{wasm-bindgen} in \textbf{Rust}. \textbf{AssemblyScript} provides those features out of the box...
+        \item \textbf{Multithreading} utilizing Web Workers
     \end{itemize}
 \end{frame}
 
