@@ -214,7 +214,7 @@ func add(a int, b int) int {
 
 ## WASM by Example 
 
-- WASM universal low level bytecode that runs on the web. Compilation target for languages like Rust, AssemblyScript, C, C++, Go and much more. This compact binart format is designed to run alongside Javascript and other host languages. WASM is shipped in all major browsers and has runtimes meant for running on server or interfacing systems with WASI
+- WASM universal low level bytecode that runs on the web. Compilation target for languages like Rust, AssemblyScript, C, C++, Go and much more. This compact binary format is designed to run alongside Javascript and other host languages. WASM is shipped in all major browsers and has runtimes meant for running on server or interfacing systems with WASI
 
 ### Concepts
 
