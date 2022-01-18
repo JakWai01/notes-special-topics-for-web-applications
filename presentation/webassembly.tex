@@ -326,7 +326,8 @@ cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
         \item \textbf{Run WebAssembly outside of the browser}
         \item \textbf{Wasmer} - lightweight containers that run everywhere
         \item \textbf{Wasmtime} - standalone JIT style runtime based on cranelift
-        \item \textbf{WebAssembly Micro Runtime} (WAMR)
+        \item \textbf{WebAssembly Micro Runtime} (WAMR) 
+        \item \textbf{Lucet} deprecated for wasmtime
     \end{itemize}
 \end{frame}
 
@@ -462,8 +463,12 @@ cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
 \end{frame}
 
 \section{Webshop}
-
+    
 \begin{frame}{Webshop}
+    \begin{figure}
+        \includegraphics[width=0.7\textwidth,height=0.7\textheight]{./images/webshop.png}
+        \caption{Web Shop using go-app}
+    \end{figure}
 \end{frame}
 
 \begin{frame}[fragile]{Sources}

@@ -1,10 +1,13 @@
 # Script 
 
+Felix hatte auf einer Folie den Satz: "Development should be possible from any platform, for any platform". 
+Und perfekt daran schließt WebAssembly an. 
+
 ## Definition
 
 - WebAssembly ist ein **Offener Standard**, welcher ermöglicht, **Software in irgendeiner Sprache** zu schreiben und diese dann über den Browser, mit **near-native-speed** auszuführen. 
 - Die ursprüngliche **Spezifikation** enthält eine **Assemblyartige-Sprache** Namens **WebAssemblyText** und die **WASM Binary** an sich, zu welcher WebAssemblyText kompiliert werden kann.
-- Man wird diesen Code allerdings **nicht mit der mitgelieferten Sprache schreiben**, sondern das WASM Binary Instruction Format als **Compilationtarget** für andere Sprachen verwenden. 
+- Man wird Code allerdings **nicht mit der mitgelieferten Sprache schreiben**, sondern die **WebAssembly Binary** als **Compilationtarget** für andere Sprachen verwenden. 
 - E.g. ein **Spiel**, welches mit **Unity** und **C#** erstellt wurde im Browser ausführen. Das wurde übrigens auch mit dem Spiel AngryBots beim ursprünglichen WebAssembly-Pitch gemacht.
 
 ## WebAssembly Text
@@ -39,6 +42,14 @@
 
 - Table ist einfach ein **typisierter array von Referenzen** zu e.g. **Funktionen** oder anderen Informationen, welche aus **Sicherheitsgründen** nicht einfach so im **Linear Memory** gespeichert werden sollten
 - **Instance**: **Module inklusive Memory, Table und Imports**
+
+## WASI 
+
+- Realisiert wird das ganze wie bei **CloudABI's** **capability-orientiert**, weswegen WASI auch gut in das Sanboxing Modell von WASM passt. WASI hat **keine Möglichkeit** nach außen zu kommunizieren ohne von außen mitgegebene capabilities e.g. **File descriptors**.
+- E.g. Statt open, **openat**, hier wird dann ein **FileDescriptor** benötigt.
+- Es gibt eine **system call wrapper layer**, welche calls zur eigentlichen WASI Implementation macht. WASI mapped dann diese calls auf die eigentliche Umgebung.
+- Ziel damit ist **portabilität** und **sandboxing** auf system interface level
+- Geplant ist eine full-featured **libc** implementation
 
 ## Security 
 
