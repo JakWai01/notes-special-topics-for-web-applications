@@ -39,11 +39,15 @@
 
 \subsection{Definition}
 
-\begin{frame}{Definition}
+\begin{frame}{What is WebAssembly?}
     \begin{figure}
-        \includegraphics[scale=0.2]{./images/definition.png}
-        \caption{\href{https://www.smashingmagazine.com/2017/05/abridged-cartoon-introduction-webassembly/}{Introduction to WebAssembly}}
+        \includegraphics[scale=0.1]{./images/definition.png}
     \end{figure}
+    \begin{itemize}
+        \item \textbf{Open standard}, which allows \textbf{writing code in any language} and \textbf{running it in the browser} at \textbf{near-native-speed}
+        \item Original specification covered an asseblylike language, \textbf{WebAssembly Text}, as well as the \textbf{WebAssembly Binary} Format
+        \item Code is not written in WebAssembly Text. Instead the binary format will be used as a \textbf{compilation target} for other languages
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Definition}
@@ -302,6 +306,10 @@ cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
         \item \textbf{Linear Memory} - Continuous buffer of unsigned bytes that can be read from and stored into by both Wasm and Javascript
         \item \textbf{No DOM Manipulation} - Use JS with e.g. \textbf{syscall/js} in \textbf{Go} or \textbf{wasm-bindgen} in \textbf{Rust}. \textbf{AssemblyScript} provides those features out of the box...
         \item \textbf{Multithreading} utilizing Web Workers
+        \begin{itemize}
+            \item **SharedArrayBuffer** caused Spectre in 2018, which resulted in multithreading being **removed** 
+            \item SharedArrayBuffer being **added** gradually to browsers **again**
+        \end{itemize}
     \end{itemize}
 \end{frame}
 
@@ -428,17 +436,60 @@ cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
 
 \begin{frame}{Security}
     \begin{itemize}
-    \item \textbf{Sandboxing}
-    \item \textbf{Same-Origin-Policy}
-    \item \textbf{Permissions} are required to access hardware of filesystem
-    \item \textbf{Dedicated memory space}
-    \item \textbf{Prohibit unwanted memory access}
-    \item \textbf{Protect execution stack}
-    \item \textbf{Tables}
-    \item \textbf{Traps}
+    \item WebAssembly modules execute in a \textbf{sandboxed} environment
+    \item Security measures from JavaScript also apply to WebAssembly
+    \begin{itemize}
+        \item \textbf{Same-Origin-Policy} 
+        \item \textbf{Permissions} are required to access hardware of filesystem
+    \end{itemize}
+    \item \textbf{Prevent unwanted memory access}
+    \begin{itemize}
+        \item \textbf{Dedicated memory space} to prevent unwanted memory access from languages like C and C++
+        \item Subset of JS-Heap is used in form of an \textbf{ArrayBuffer}
+        \item JS-Environment knows \textbf{size} and content of the buffer at all times
+        \item Memory access has to stay \textbf{within the boundaries} of the buffer
+        \item Necessary \textbf{overhead}
+    \end{itemize}
     \end{itemize}
 \end{frame}
 
+\begin{frame}{Security}
+    \begin{itemize}
+    \item \textbf{Protect execution stack}
+    \begin{itemize} 
+        \item Execution stack is \textbf{stored seperate} (not in Linear Memory)
+        \item WebAssembly only has \textbf{read access} 
+    \end{itemize}
+    \item \textbf{Tables to call functions}
+    \begin{itemize}
+        \item Instead of using function pointer in the call instruction, the \textbf{call instruction} takes an \textbf{index and the function signature} as arguments
+        \item \textbf{Index} refers to entry in \textbf{table}. The table contains the function address
+        \item Table is \textbf{stored outside of linear memory} as well
+        \item \textbf{Check} if function \textbf{signatures} match
+        \begin{itemize}
+            \item \textbf{Yes} - Function gets called
+            \item \textbf{No} - Module is stopped immeadiately 
+        \end{itemize}
+    \end{itemize}
+    \end{itemize}
+    \end{frame}
+
+\begin{frame}{Security}
+    \begin{itemize}
+    \item \textbf{Traps}
+        \begin{itemize}
+            \item \textbf{JavaScript Exceptions}, to report forbidden behaviour to the runtime environment as they can not be handled by the WebAssembly code itself
+        \end{itemize}
+    \item WebAssembly still is \textbf{not perfectly secure} and probably never will be (as any other system)
+    \item There were several successful \textbf{attacks in the past}. They are not possible anymore!
+    \begin{itemize}
+        \item Crypto Mining
+        \item Spectre
+        \item Escaping the sandbox
+        \item Side Channel Attacks
+    \end{itemize}
+\end{itemize}
+\end{frame}
 
 \section{Conclusion}
 
