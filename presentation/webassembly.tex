@@ -307,8 +307,8 @@ cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
         \item \textbf{No DOM Manipulation} - Use JS with e.g. \textbf{syscall/js} in \textbf{Go} or \textbf{wasm-bindgen} in \textbf{Rust}. \textbf{AssemblyScript} provides those features out of the box...
         \item \textbf{Multithreading} utilizing Web Workers
         \begin{itemize}
-            \item **SharedArrayBuffer** caused Spectre in 2018, which resulted in multithreading being **removed** 
-            \item SharedArrayBuffer being **added** gradually to browsers **again**
+            \item \textbf{SharedArrayBuffer} caused Spectre in 2018, which resulted in multithreading being \textbf{removed} 
+            \item SharedArrayBuffer being \textbf{added} gradually to browsers \textbf{again}
         \end{itemize}
     \end{itemize}
 \end{frame}
@@ -468,7 +468,7 @@ cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
         \item \textbf{Check} if function \textbf{signatures} match
         \begin{itemize}
             \item \textbf{Yes} - Function gets called
-            \item \textbf{No} - Module is stopped immeadiately 
+            \item \textbf{No} - Module is stopped immediately 
         \end{itemize}
     \end{itemize}
     \end{itemize}
