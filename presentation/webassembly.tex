@@ -44,9 +44,9 @@
         \includegraphics[scale=0.1]{./images/definition.png}
     \end{figure}
     \begin{itemize}
-        \item \textbf{Open standard}, which allows \textbf{writing code in any language} and \textbf{running it in the browser} at \textbf{near-native-speed}
-        \item Original specification covered an asseblylike language, \textbf{WebAssembly Text}, as well as the \textbf{WebAssembly Binary} Format
-        \item Code is not written in WebAssembly Text. Instead the binary format will be used as a \textbf{compilation target} for other languages
+        \item \textbf{Open standard}, which allows \textbf{writing code in any language} and \textbf{running it in the browser} at \textbf{near-native speed}
+        \item Original specification covered an assemblylike language, \textbf{WebAssembly Text}, as well as the \textbf{WebAssembly Binary} Format
+        \item Code is not written in WebAssembly Text. Instead, the binary format will be used as a \textbf{compilation target} for other languages
     \end{itemize}
 \end{frame}
 
@@ -70,7 +70,7 @@
         \item \textbf{Machine code} $||$ \textbf{Bytecode for a virtual machine}
         \item \textbf{Targeting different instruction set architectures} (ISA) like \textbf{x86}, \textbf{ARM} or \textbf{RISC-V}
         \item WASM uses \textbf{virtual instructions} for a \textbf{conceptual machine}, not a physical one
-        \item Think of WASM instruction set as \textbf{intersection of multiple ISAs} that can't be mapped directly to one ISA
+        \item Think of WASM instruction set as \textbf{intersection of multiple ISAs} that can not be mapped directly to one ISA
     \end{itemize}
 \end{frame}
 
@@ -78,16 +78,18 @@
     \begin{itemize}
         \item Virtual machine which \textbf{uses stack} data structure \textbf{to perform operations}
         \item Famous stack-based VMs are the \textbf{JVM} (Java Virtual Machine) and the \textbf{CLR} (Common Language Runtime)
-        \item When the \textbf{browser} translates WASM to the machine code for the machine the browser is running on, it \textbf{will use registers}. Since the WASM specification does \textbf{not} specify registers, it gives the browser more \textbf{flexibility} to use the \textbf{best register allocation} for  that machine
+        \item E.g. \textbf{adding} to numbers works by \textbf{pushing two numbers} along with the \textbf{add instruction} to the stack. When the add instruction is executed, the \textbf{two numbers get popped} and their \textbf{sum is pushed}.
+        \item When the \textbf{browser} compiles WASM to the machine code for the machine the browser is running on, it \textbf{will use registers}. Since the WASM specification does \textbf{not} specify registers, it gives the browser more \textbf{flexibility} to use the \textbf{best register allocation} for  that machine
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Portable Compilation Target}
     \begin{itemize}
+        \item Use \textbf{WASM as a compilation target}
         \item \textbf{WASM is designed to be executable on a variety of operating systems and instruction set architectures, on the Web and off the Web}
         \item \textbf{Low requirements} for WASM execution environments:
               \begin{itemize}
-                  \item 8-bit Bytes
+                  \item 8-bit bytes
                   \item Addressable at byte granularity
                   \item Little endian
                   \item \href{https://webassembly.org/docs/portability/}{...}
@@ -153,7 +155,7 @@
     \begin{itemize}
         \item \textbf{Textual representation} of the binary format to allow reading and editing by humans
         \item Designed to be \textbf{exposed} in \textbf{text editors}, \textbf{browser developer tools}, etc.
-        \item Files can be compiled to using the \textbf{WebAssembly Binary Toolkit} (WABT)
+        \item .wat files can be compiled to wasm binaries using the \textbf{WebAssembly Binary Toolkit} (WABT)
         \item For more information, consider visiting the \textbf{\href{https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format}{MDN Web Docs}}
     \end{itemize}
 \end{frame}
@@ -303,7 +305,7 @@ cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
 \begin{frame}{Additional Information}
     \begin{itemize}
         \item WebAssembly functions only support \textbf{integers} and \textbf{floating point numbers}. To work with other data types, linear memory can be used
-        \item \textbf{Linear Memory} - Continuous buffer of unsigned bytes that can be read from and stored into by both Wasm and Javascript
+        \item \textbf{Linear Memory} - Continuous buffer of unsigned bytes that can be read from and stored into by both WebAssembly and Javascript
         \item \textbf{No DOM Manipulation} - Use JS with e.g. \textbf{syscall/js} in \textbf{Go} or \textbf{wasm-bindgen} in \textbf{Rust}. \textbf{AssemblyScript} provides those features out of the box...
         \item \textbf{Multithreading} utilizing Web Workers
         \begin{itemize}
@@ -323,8 +325,6 @@ cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
 \end{frame}
 
 
-% Lucet is deprecated for wasmtime
-% Add a bit more theory
 \section{Advanced Concepts}
 
 \subsection{WebAssembly Runtimes}
@@ -359,7 +359,8 @@ cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
         \item Run WASM binaries as \textbf{HTTP handlers} using \textbf{STDIN} and \textbf{STDOUT} and \textbf{environment variables}
         \item When HTTP \textbf{request} is received the WASM binary gets executed with the necessary Information contained in STDIN and environment variables
         \item \textbf{Responses} are sent to STDOUT and binary can terminate again.
-        \item \textbf{WAGI-Server} can be used
+        \item \textbf{WAGI-Server} can be used as a server 
+        \item Routing can be achieved using a simple .toml file, which maps URL to WASM module or even a single function
     \end{itemize}
 \end{frame}
 
@@ -400,6 +401,7 @@ cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
               \begin{itemize}
                   \item Not needing to figure out \textbf{types}
                   \item Ahead of time \textbf{optimizations}
+                  \item Depending on engine JIT/AOT
               \end{itemize}
     \end{itemize}
 \end{frame}
